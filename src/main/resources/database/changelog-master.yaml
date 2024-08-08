@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: database/changelogs/03082024-create-tables.sql

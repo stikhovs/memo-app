@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="15 seconds" debug="false">
+    <springProperty scope="context" name="envName" source="envName"/>
+    <springProperty scope="context" name="applicationName" source="spring.application.name"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%boldMagenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %gray([%thread]) [%X{rid}]:[%X{sid}]:[%X{externalIp}] %highlight(%-5level) %cyan(%logger{30}) - %msg%n%throwable</pattern>
+        </encoder>
+    </appender>
+
+    <logger level="INFO" additivity="true" name="org.apache"/>
+    <logger level="INFO" additivity="true" name="org.springframework"/>
+    <logger level="DEBUG" additivity="true" name="org.springframework.jdbc"/>
+
+    <logger level="TRACE" additivity="true" name="com.sergio"/>
+    <logger level="DEBUG" additivity="true" name="org.springframework.web.filter.CommonsRequestLoggingFilter"/>
+
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
