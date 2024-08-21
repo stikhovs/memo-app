@@ -35,6 +35,20 @@ public class CardSetPersistenceService {
                 .toList();
     }
 
+    public List<CardSetDto> findAll(Long userId, List<Long> ids) {
+        return cardSetRepository.findByUserIdAndIdIn(userId, ids)
+                .stream()
+                .map(cardSetMapper::toDto)
+                .toList();
+    }
+
+    public List<CardSetDto> getSetIdsAndTitles(Long userId) {
+        return cardSetRepository.getByUserId(userId)
+                .stream()
+                .map(cardSetMapper::toDto)
+                .toList();
+    }
+
     public CardSetDto findById(Long id) {
         return cardSetRepository.findById(id)
                 .map(cardSetMapper::toDto)

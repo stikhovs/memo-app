@@ -4,6 +4,7 @@ import com.sergio.memo_app.api.dto.CardSetDto;
 import com.sergio.memo_app.mapper.common.DateTimeHandler;
 import com.sergio.memo_app.mapper.common.UuidHandler;
 import com.sergio.memo_app.persistence.entity.CardSet;
+import com.sergio.memo_app.persistence.repository.projection.TitleAndId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -17,5 +18,8 @@ public interface CardSetMapper extends DateTimeHandler<CardSetDto>, UuidHandler 
     CardSet toEntity(CardSetDto cardSetDto);
 
     CardSetDto toDto(CardSet cardSet);
+
+    CardSetDto toDto(TitleAndId projection);
+
 
 }
