@@ -1,6 +1,6 @@
 package com.sergio.memo_app.api.controller;
 
-import com.sergio.memo_app.api.dto.UserDto;
+import com.sergio.memo_app.persistence.dto.UserDto;
 import com.sergio.memo_app.persistence.service.UserPersistenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

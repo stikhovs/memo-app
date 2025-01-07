@@ -1,4 +1,4 @@
-package com.sergio.memo_app.api.dto;
+package com.sergio.memo_app.persistence.dto;
 
 import lombok.Builder;
 

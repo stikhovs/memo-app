@@ -1,15 +1,15 @@
 package com.sergio.memo_app.mapper;
 
-import com.sergio.memo_app.api.dto.CardDto;
-import com.sergio.memo_app.api.dto.CardSetDto;
-import com.sergio.memo_app.api.dto.UserDto;
 import com.sergio.memo_app.generated.tables.AppUser;
 import com.sergio.memo_app.generated.tables.Card;
 import com.sergio.memo_app.generated.tables.CardSet;
+import com.sergio.memo_app.persistence.dto.CardDto;
+import com.sergio.memo_app.persistence.dto.CardSetDto;
+import com.sergio.memo_app.persistence.dto.UserDto;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
 
-public final class Mapper {
+public final class PersistenceMapper {
 
     public static RecordMapper<Record, UserDto> toUserDto() {
         return record -> UserDto.builder()

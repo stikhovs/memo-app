@@ -1,8 +1,8 @@
 package com.sergio.memo_app.persistence.service;
 
-import com.sergio.memo_app.api.dto.CardSetDto;
 import com.sergio.memo_app.generated.tables.Card;
 import com.sergio.memo_app.generated.tables.CardSet;
+import com.sergio.memo_app.persistence.dto.CardSetDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.sergio.memo_app.mapper.Mapper.toCardSetDto;
+import static com.sergio.memo_app.mapper.PersistenceMapper.toCardSetDto;
 
 @Slf4j
 @Service

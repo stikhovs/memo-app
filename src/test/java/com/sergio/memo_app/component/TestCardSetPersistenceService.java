@@ -1,8 +1,8 @@
 package com.sergio.memo_app.component;
 
 import com.sergio.memo_app.ConstantHelper;
-import com.sergio.memo_app.api.dto.CardSetDto;
 import com.sergio.memo_app.component.base.BaseCT;
+import com.sergio.memo_app.persistence.dto.CardSetDto;
 import com.sergio.memo_app.persistence.service.CardSetPersistenceService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

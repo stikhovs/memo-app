@@ -1,7 +1,7 @@
 package com.sergio.memo_app.persistence.service;
 
-import com.sergio.memo_app.api.dto.UserDto;
 import com.sergio.memo_app.generated.tables.AppUser;
+import com.sergio.memo_app.persistence.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.sergio.memo_app.mapper.Mapper.toUserDto;
+import static com.sergio.memo_app.mapper.PersistenceMapper.toUserDto;
 
 @Slf4j
 @Service

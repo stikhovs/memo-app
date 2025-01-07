@@ -1,7 +1,7 @@
 package com.sergio.memo_app.component;
 
-import com.sergio.memo_app.api.dto.UserDto;
 import com.sergio.memo_app.component.base.BaseCT;
+import com.sergio.memo_app.persistence.dto.UserDto;
 import com.sergio.memo_app.persistence.service.UserPersistenceService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

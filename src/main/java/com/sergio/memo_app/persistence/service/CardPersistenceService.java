@@ -1,8 +1,8 @@
 package com.sergio.memo_app.persistence.service;
 
-import com.sergio.memo_app.api.dto.CardDto;
 import com.sergio.memo_app.generated.tables.Card;
 import com.sergio.memo_app.generated.tables.records.CardRecord;
+import com.sergio.memo_app.persistence.dto.CardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.sergio.memo_app.mapper.Mapper.toCardDto;
+import static com.sergio.memo_app.mapper.PersistenceMapper.toCardDto;
 
 @Slf4j
 @Service
@@ -76,7 +76,6 @@ public class CardPersistenceService implements BaseCrud<CardDto> {
     }
 
     public List<CardDto> addCards(Long setId, List<CardDto> cards) {
-
         List<CardRecord> cardRecords = cards.stream()
                 .map(cardDto -> {
                     CardRecord cardRecord = dslContext.newRecord(Card.CARD);

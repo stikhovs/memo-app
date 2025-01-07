@@ -1,6 +1,6 @@
 package com.sergio.memo_app.api.controller;
 
-import com.sergio.memo_app.api.dto.CardSetDto;
+import com.sergio.memo_app.persistence.dto.CardSetDto;
 import com.sergio.memo_app.persistence.service.CardSetPersistenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
