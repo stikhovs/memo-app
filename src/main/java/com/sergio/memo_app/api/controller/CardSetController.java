@@ -15,12 +15,13 @@ public class CardSetController {
 
     @PostMapping("/set/save")
     public CardSetDto save(@RequestBody CardSetDto cardSetDto) {
-        return cardSetPersistenceService.save(cardSetDto.toBuilder().userId(1L).build());
+//        return cardSetPersistenceService.insert(cardSetDto.toBuilder().userId(1L).build());
+        return null;
     }
 
     @GetMapping("/set")
     public CardSetDto findByTitle(@RequestParam String title) {
-        return cardSetPersistenceService.find(title);
+        return cardSetPersistenceService.findByTitle(title);
     }
     @GetMapping("/set/{id}")
     public CardSetDto findById(@PathVariable Long id) {
@@ -28,11 +29,11 @@ public class CardSetController {
     }
     @GetMapping("/set-by-user")
     public List<CardSetDto> findByUserId(@RequestParam Long userId) {
-        return cardSetPersistenceService.findAll(userId);
+        return cardSetPersistenceService.findAllByUserId(userId);
     }
     @GetMapping("/sets")
     public List<CardSetDto> getSets(@RequestParam Long userId, @RequestParam List<Long> ids) {
-        return cardSetPersistenceService.findAll(userId, ids);
+        return cardSetPersistenceService.findAllByUserId(userId, ids);
     }
 
     @GetMapping("/titles-and-ids")

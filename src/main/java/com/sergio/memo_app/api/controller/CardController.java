@@ -20,12 +20,12 @@ public class CardController {
 
     @GetMapping("/card")
     public List<CardDto> find(@RequestParam Long cardSetId) {
-        return cardPersistenceService.findAll(cardSetId);
+        return cardPersistenceService.findAllBySetId(cardSetId);
     }
 
     @PutMapping("/card")
     public CardDto update(@RequestParam Long cardId, @RequestBody CardDto cardDto) {
-        return cardPersistenceService.update(cardId, cardDto);
+        return cardPersistenceService.update(cardDto);
     }
 
 }

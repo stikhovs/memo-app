@@ -1,83 +1,96 @@
 package com.sergio.memo_app.persistence.service;
 
 import com.sergio.memo_app.api.dto.CardDto;
-import com.sergio.memo_app.api.dto.CardSetDto;
-import com.sergio.memo_app.mapper.CardMapper;
-import com.sergio.memo_app.mapper.CardSetMapper;
-import com.sergio.memo_app.persistence.entity.Card;
-import com.sergio.memo_app.persistence.repository.CardSetRepository;
+import com.sergio.memo_app.generated.tables.Card;
+import com.sergio.memo_app.generated.tables.records.CardRecord;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.simple.JdbcClient;
+import lombok.extern.slf4j.Slf4j;
+import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.sergio.memo_app.mapper.Mapper.toCardDto;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class CardPersistenceService {
+public class CardPersistenceService implements BaseCrud<CardDto> {
 
-    private final CardMapper cardMapper;
-    private final CardSetMapper cardSetMapper;
-    private final JdbcClient jdbcClient;
-    //private final CardRepository cardRepository;
-    private final CardSetRepository cardSetRepository;
+    private final DSLContext dslContext;
 
-    @Transactional
+    @Override
+    public List<CardDto> findAll() {
+        return dslContext.select()
+                .from(Card.CARD)
+                .fetch(toCardDto());
+    }
+
+    public List<CardDto> findAllBySetId(Long setId) {
+        return dslContext.select()
+                .from(Card.CARD)
+                .where(Card.CARD.CARD_SET_ID.eq(setId))
+                .fetch(toCardDto());
+    }
+
+    @Override
+    public CardDto findById(Long id) {
+        return dslContext.select()
+                .from(Card.CARD)
+                .where(Card.CARD.ID.eq(id))
+                .fetchOptional()
+                .map(toCardDto())
+                .orElseThrow(() -> new RuntimeException("Couldn't find card by id: %s".formatted(id)));
+    }
+
+    @Override
+    public CardDto update(CardDto data) {
+        int numberOfRecords = dslContext.update(Card.CARD)
+                .set(Card.CARD.FRONT_SIDE, data.frontSide())
+                .set(Card.CARD.BACK_SIDE, data.backSide())
+                .where(Card.CARD.ID.eq(data.id()))
+                .execute();
+        return data;
+    }
+
+    @Override
+    @Deprecated
+    public CardDto insert(CardDto data) {
+        throw new UnsupportedOperationException("Insert without cardSetId is not supported.");
+    }
+
+    public CardDto insert(Long cardSetId, CardDto data) {
+        int numberOfRecords = dslContext.insertInto(Card.CARD)
+                .set(Card.CARD.CARD_SET_ID, cardSetId)
+                .set(Card.CARD.FRONT_SIDE, data.frontSide())
+                .set(Card.CARD.BACK_SIDE, data.backSide())
+                .execute();
+        return data;
+    }
+
+    @Override
+    public void delete(Long id) {
+        dslContext.delete(Card.CARD)
+                .where(Card.CARD.ID.eq(id))
+                .execute();
+    }
+
     public List<CardDto> addCards(Long setId, List<CardDto> cards) {
-        String sql = """
-                INSERT INTO card
-                (card_set_id, front_side, back_side, created_at, updated_at)
-                VALUES(:setId, :frontSide, :backSide, :createdAt, :updatedAt);
-                """;
-        cards.stream()
-                .map(cardMapper::toEntity)
-                .forEach(card -> {
-                    jdbcClient.sql(sql)
-                            .param("setId", setId)
-                            .param("frontSide", card.frontSide())
-                            .param("backSide", card.backSide())
-                            .param("createdAt", card.createdAt())
-                            .param("updatedAt", card.updatedAt())
-                            .update();
-                });
 
-        return findAll(setId);
+        List<CardRecord> cardRecords = cards.stream()
+                .map(cardDto -> {
+                    CardRecord cardRecord = dslContext.newRecord(Card.CARD);
+                    cardRecord.setCardSetId(setId);
+                    cardRecord.setBackSide(cardDto.backSide());
+                    cardRecord.setFrontSide(cardDto.frontSide());
+                    return cardRecord;
+                })
+                .toList();
+
+        dslContext.insertInto(Card.CARD)
+                .set(cardRecords)
+                .execute();
+
+        return findAllBySetId(setId);
     }
-
-    public List<CardDto> findAll(Long setId) {
-        return cardSetRepository.findById(setId)
-                .map(cardSetMapper::toDto)
-                .map(CardSetDto::cards)
-                .orElseThrow(() -> new RuntimeException("Couldn't find cards by card set id: %s".formatted(setId)));
-    }
-
-    @Transactional
-    public CardDto update(Long id, CardDto cardDto) {
-        String query = """
-                UPDATE card
-                SET front_side=:frontSide, back_side=:backSide, updated_at=:updatedAt
-                WHERE id=:id;
-                """;
-        Card card = cardMapper.toEntity(cardDto);
-
-        jdbcClient.sql(query)
-                .param("id", id)
-                .param("frontSide", card.frontSide())
-                .param("backSide", card.backSide())
-                .param("updatedAt", card.updatedAt())
-                .update();
-
-        return jdbcClient.sql("select * from card where id = :id")
-                .param("id", id)
-                .query(rs -> {
-                    rs.next();
-                    return CardDto.builder()
-                            .id(rs.getLong("id"))
-                            .frontSide(rs.getString("front_side"))
-                            .backSide(rs.getString("back_side"))
-                            .build();
-                });
-    }
-
 }

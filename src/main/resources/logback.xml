@@ -13,6 +13,7 @@
     <logger level="INFO" additivity="true" name="org.apache"/>
     <logger level="INFO" additivity="true" name="org.springframework"/>
     <logger level="DEBUG" additivity="true" name="org.springframework.jdbc"/>
+    <logger level="DEBUG" additivity="true" name="org.jooq.tools.LoggerListener"/>
 
     <logger level="TRACE" additivity="true" name="com.sergio"/>
     <logger level="DEBUG" additivity="true" name="org.springframework.web.filter.CommonsRequestLoggingFilter"/>

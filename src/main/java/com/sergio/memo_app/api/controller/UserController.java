@@ -13,7 +13,7 @@ public class UserController {
 
     @PostMapping("/user/create")
     public UserDto create(@RequestBody UserDto userDto) {
-        return userPersistenceService.create(userDto);
+        return userPersistenceService.insert(userDto);
     }
 
     @GetMapping("/user")
