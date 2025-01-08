@@ -1,4 +1,4 @@
-package com.sergio.memo_app.component;
+package com.sergio.memo_app.component.persistence;
 
 import com.sergio.memo_app.component.base.BaseCT;
 import com.sergio.memo_app.persistence.dto.CardDto;
@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.sergio.memo_app.ConstantHelper.Card.*;
-import static com.sergio.memo_app.ConstantHelper.CardSet.CARD_SET_ID_1;
+import static com.sergio.memo_app.util.ConstantHelper.Card.*;
+import static com.sergio.memo_app.util.ConstantHelper.CardSet.CARD_SET_ID_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 

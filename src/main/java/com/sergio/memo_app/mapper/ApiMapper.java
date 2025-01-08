@@ -9,11 +9,15 @@ import com.sergio.memo_app.persistence.dto.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
+import java.util.List;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ApiMapper {
 
     CardApiDto toCard(CardDto cardDto);
+    List<CardApiDto> toCards(List<CardDto> cardDtos);
     CardSetApiDto toCardSet(CardSetDto cardSetDto);
+    List<CardSetApiDto> toCardSets(List<CardSetDto> cardSetDto);
     UserApiDto toUser(UserDto userDto);
 
 }

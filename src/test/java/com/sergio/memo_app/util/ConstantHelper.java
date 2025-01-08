@@ -1,4 +1,4 @@
-package com.sergio.memo_app;
+package com.sergio.memo_app.util;
 
 public final class ConstantHelper {
 

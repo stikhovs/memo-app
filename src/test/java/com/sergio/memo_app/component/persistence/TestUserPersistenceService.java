@@ -1,4 +1,4 @@
-package com.sergio.memo_app.component;
+package com.sergio.memo_app.component.persistence;
 
 import com.sergio.memo_app.component.base.BaseCT;
 import com.sergio.memo_app.persistence.dto.UserDto;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.sergio.memo_app.ConstantHelper.User.*;
+import static com.sergio.memo_app.util.ConstantHelper.User.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 

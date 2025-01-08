@@ -1,7 +1,8 @@
 package com.sergio.memo_app.api.controller;
 
+import com.sergio.memo_app.api.dto.CardSetApiDto;
+import com.sergio.memo_app.api.service.CardSetApiService;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
-import com.sergio.memo_app.persistence.service.CardSetPersistenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,34 +12,32 @@ import java.util.List;
 @RestController
 public class CardSetController {
 
-    private final CardSetPersistenceService cardSetPersistenceService;
+    private final CardSetApiService cardSetApiService;
 
     @PostMapping("/set/save")
-    public CardSetDto save(@RequestBody CardSetDto cardSetDto) {
-//        return cardSetPersistenceService.insert(cardSetDto.toBuilder().userId(1L).build());
-        return null;
+    public CardSetApiDto save(@RequestBody CardSetDto cardSetDto) {
+        return cardSetApiService.save(cardSetDto);
     }
 
     @GetMapping("/set")
-    public CardSetDto findByTitle(@RequestParam String title) {
-        return cardSetPersistenceService.findByTitle(title);
+    public CardSetApiDto findByTitle(@RequestParam String title) {
+        return cardSetApiService.findByTitle(title);
     }
     @GetMapping("/set/{id}")
-    public CardSetDto findById(@PathVariable Long id) {
-        return cardSetPersistenceService.findById(id);
+    public CardSetApiDto findById(@PathVariable Long id) {
+        return cardSetApiService.findById(id);
     }
     @GetMapping("/set-by-user")
-    public List<CardSetDto> findByUserId(@RequestParam Long userId) {
-        return cardSetPersistenceService.findAllByUserId(userId);
+    public List<CardSetApiDto> findByUserId(@RequestParam Long userId) {
+        return cardSetApiService.findByUserId(userId);
     }
     @GetMapping("/sets")
-    public List<CardSetDto> getSets(@RequestParam Long userId, @RequestParam List<Long> ids) {
-        return cardSetPersistenceService.findAllByUserId(userId, ids);
+    public List<CardSetApiDto> getSets(@RequestParam Long userId, @RequestParam List<Long> ids) {
+        return cardSetApiService.getSets(userId, ids);
     }
-
     @GetMapping("/titles-and-ids")
-    public List<CardSetDto> getTitlesAndIds(@RequestParam Long userId) {
-        return cardSetPersistenceService.getSetIdsAndTitles(userId);
+    public List<CardSetApiDto> getTitlesAndIds(@RequestParam Long userId) {
+        return cardSetApiService.getTitlesAndIds(userId);
     }
 
 }

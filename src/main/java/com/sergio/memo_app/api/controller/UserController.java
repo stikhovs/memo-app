@@ -1,7 +1,8 @@
 package com.sergio.memo_app.api.controller;
 
+import com.sergio.memo_app.api.dto.UserApiDto;
+import com.sergio.memo_app.api.service.UserApiService;
 import com.sergio.memo_app.persistence.dto.UserDto;
-import com.sergio.memo_app.persistence.service.UserPersistenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,17 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    private final UserPersistenceService userPersistenceService;
+    private final UserApiService userApiService;
 
     @PostMapping("/user/create")
-    public UserDto create(@RequestBody UserDto userDto) {
-        return userPersistenceService.insert(userDto);
+    public UserApiDto create(@RequestBody UserDto userDto) {
+        return userApiService.create(userDto);
     }
 
     @GetMapping("/user")
-    public UserDto get(@RequestParam String username) {
-        return userPersistenceService.findBy(username);
+    public UserApiDto get(@RequestParam String username) {
+        return userApiService.get(username);
     }
-
 
 }
