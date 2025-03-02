@@ -11,4 +11,6 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  liquibase.change-log: classpath:database/changelog-master.yaml
+  liquibase:
+    change-log: classpath:database/changelog-master.yaml
+    contexts: production
