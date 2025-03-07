@@ -3,7 +3,9 @@
 CREATE TABLE IF NOT EXISTS app_user (
 	id SERIAL PRIMARY KEY,
 	username VARCHAR(100) NOT NULL,
-	email VARCHAR(50) NOT NULL UNIQUE,
+	email VARCHAR(50) UNIQUE,
+	telegram_username TEXT UNIQUE,
+	telegram_chat_id VARCHAR(100) UNIQUE,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );
