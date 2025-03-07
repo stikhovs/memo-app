@@ -16,6 +16,8 @@ public final class PersistenceMapper {
                 .id(record.get(AppUser.APP_USER.ID))
                 .username(record.get(AppUser.APP_USER.USERNAME))
                 .email(record.get(AppUser.APP_USER.EMAIL))
+                .telegramUsername(record.get(AppUser.APP_USER.TELEGRAM_USERNAME))
+                .telegramChatId(record.get(AppUser.APP_USER.TELEGRAM_CHAT_ID))
                 .build();
     }
 
