@@ -16,6 +16,7 @@
     <properties>
         <java.version>21</java.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <liquibase.version>4.29.1</liquibase.version>
     </properties>
     <dependencies>
         <dependency>
@@ -33,7 +34,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.29.1</version>
+            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,11 +52,6 @@
             <groupId>org.jooq</groupId>
             <artifactId>jooq-meta</artifactId>
         </dependency>
-        <!--		<dependency>-->
-        <!--			<groupId>org.springframework.boot</groupId>-->
-        <!--			<artifactId>spring-boot-starter-data-jdbc</artifactId>-->
-        <!--			<version>3.3.0</version>-->
-        <!--		</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -126,6 +122,11 @@
                         <artifactId>postgresql</artifactId>
                         <version>${postgresql.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-meta-extensions-liquibase</artifactId>
+                        <version>3.19.20</version>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <jdbc>
@@ -136,9 +137,29 @@
                     </jdbc>
                     <generator>
                         <database>
-                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
-                            <excludes>databasechangelog.*</excludes>
-                            <inputSchema>public</inputSchema>
+                            <name>org.jooq.meta.extensions.liquibase.LiquibaseDatabase</name>
+                            <properties>
+                                <property>
+                                    <key>rootPath</key>
+                                    <value>${basedir}/src/main/resources</value>
+                                </property>
+                                <property>
+                                    <key>scripts</key>
+                                    <value>/database/changelog-master.yaml</value>
+                                </property>
+                                <property>
+                                    <key>includeLiquibaseTables</key>
+                                    <value>false</value>
+                                </property>
+                                <property>
+                                    <key>database.liquibaseSchemaName</key>
+                                    <value>public</value>
+                                </property>
+                                <property>
+                                    <key>changeLogParameters.contexts</key>
+                                    <value>!test</value>
+                                </property>
+                            </properties>
                         </database>
                         <target>
                             <packageName>com.sergio.memo_app.generated</packageName>
