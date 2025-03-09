@@ -114,6 +114,20 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <changeLogFile>/database/changelog-master.yaml</changeLogFile>
+                    <url>jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}</url>
+                    <username>${DB_USER}</username>
+                    <password>${DB_PASSWORD}</password>
+                    <driver>org.postgresql.Driver</driver>
+                    <searchPath>${basedir}/src/main/resources/</searchPath>
+                    <contexts>!test</contexts>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
                 <dependencies>
@@ -121,11 +135,6 @@
                         <groupId>org.postgresql</groupId>
                         <artifactId>postgresql</artifactId>
                         <version>${postgresql.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-meta-extensions-liquibase</artifactId>
-                        <version>3.19.20</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -137,29 +146,9 @@
                     </jdbc>
                     <generator>
                         <database>
-                            <name>org.jooq.meta.extensions.liquibase.LiquibaseDatabase</name>
-                            <properties>
-                                <property>
-                                    <key>rootPath</key>
-                                    <value>${basedir}/src/main/resources</value>
-                                </property>
-                                <property>
-                                    <key>scripts</key>
-                                    <value>/database/changelog-master.yaml</value>
-                                </property>
-                                <property>
-                                    <key>includeLiquibaseTables</key>
-                                    <value>false</value>
-                                </property>
-                                <property>
-                                    <key>database.liquibaseSchemaName</key>
-                                    <value>public</value>
-                                </property>
-                                <property>
-                                    <key>changeLogParameters.contexts</key>
-                                    <value>!test</value>
-                                </property>
-                            </properties>
+                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                            <excludes>databasechangelog.*</excludes>
+                            <inputSchema>public</inputSchema>
                         </database>
                         <target>
                             <packageName>com.sergio.memo_app.generated</packageName>
