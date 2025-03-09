@@ -2,5 +2,5 @@ databaseChangeLog:
   - include:
       file: database/changelogs/20240803-create-tables.sql
   - include:
-      file: database/changelogs/20250103-insert-for-tests.sql
+      file: database/changelogs/for-tests/20250103-insert-for-tests.sql
       context: test
