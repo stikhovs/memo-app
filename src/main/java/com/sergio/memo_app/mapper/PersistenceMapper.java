@@ -3,8 +3,10 @@ package com.sergio.memo_app.mapper;
 import com.sergio.memo_app.generated.tables.AppUser;
 import com.sergio.memo_app.generated.tables.Card;
 import com.sergio.memo_app.generated.tables.CardSet;
+import com.sergio.memo_app.generated.tables.TelegramUser;
 import com.sergio.memo_app.persistence.dto.CardDto;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
+import com.sergio.memo_app.persistence.dto.TelegramUserDto;
 import com.sergio.memo_app.persistence.dto.UserDto;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
@@ -16,8 +18,15 @@ public final class PersistenceMapper {
                 .id(record.get(AppUser.APP_USER.ID))
                 .username(record.get(AppUser.APP_USER.USERNAME))
                 .email(record.get(AppUser.APP_USER.EMAIL))
-                .telegramUsername(record.get(AppUser.APP_USER.TELEGRAM_USERNAME))
-                .telegramChatId(record.get(AppUser.APP_USER.TELEGRAM_CHAT_ID))
+                .build();
+    }
+
+    public static RecordMapper<Record, TelegramUserDto> toTelegramUserDto() {
+        return record -> TelegramUserDto.builder()
+                .id(record.get(TelegramUser.TELEGRAM_USER.ID))
+                .username(record.get(TelegramUser.TELEGRAM_USER.USERNAME))
+                .telegramUserId(record.get(TelegramUser.TELEGRAM_USER.TELEGRAM_USER_ID))
+                .telegramChatId(record.get(TelegramUser.TELEGRAM_USER.TELEGRAM_CHAT_ID))
                 .build();
     }
 
