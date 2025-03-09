@@ -5,7 +5,5 @@ import lombok.Builder;
 @Builder(toBuilder = true)
 public record UserApiDto(Integer id,
                          String username,
-                         String email,
-                         String telegramUsername,
-                         String telegramChatId) {
+                         String email) {
 }
