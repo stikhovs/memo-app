@@ -3,9 +3,26 @@
 CREATE TABLE IF NOT EXISTS app_user (
 	id SERIAL PRIMARY KEY,
 	username VARCHAR(100) NOT NULL,
-	email VARCHAR(50) UNIQUE,
-	telegram_username TEXT UNIQUE,
-	telegram_chat_id VARCHAR(100) UNIQUE,
+	email VARCHAR(50) UNIQUE NOT NULL,
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NOT NULL DEFAULT now()
+);
+
+--changeset stikhovs:create-telegram_user-table
+CREATE TABLE IF NOT EXISTS telegram_user (
+    id SERIAL PRIMARY KEY,
+	username TEXT NOT NULL,
+	telegram_user_id BIGINT NOT NULL,
+	telegram_chat_id BIGINT NOT NULL,
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NOT NULL DEFAULT now()
+);
+
+--changeset stikhovs:create-composite_user-table
+CREATE TABLE IF NOT EXISTS composite_user (
+    id SERIAL PRIMARY KEY,
+	app_user_id INTEGER REFERENCES app_user (id),
+	telegram_user_id INTEGER REFERENCES telegram_user (id),
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );
@@ -16,7 +33,7 @@ CREATE TABLE IF NOT EXISTS card_set (
 	id BIGSERIAL PRIMARY KEY,
 	title VARCHAR(100) NOT NULL,
 	uuid UUID NOT NULL,
-	user_id int4 NOT NULL REFERENCES app_user (id),
+	user_id INTEGER NOT NULL REFERENCES composite_user (id),
 	created_at timestamp NOT NULL DEFAULT now(),
     updated_at timestamp NOT NULL DEFAULT now()
 );
@@ -27,7 +44,7 @@ CREATE TABLE IF NOT EXISTS card (
 	id BIGSERIAL PRIMARY KEY,
 	front_side VARCHAR(100) NOT NULL,
 	back_side VARCHAR(100) NOT NULL,
-	card_set_id int8 NOT NULL REFERENCES card_set (id),
+	card_set_id BIGINT NOT NULL REFERENCES card_set (id),
 	created_at timestamp NOT NULL DEFAULT now(),
     updated_at timestamp NOT NULL DEFAULT now()
 );
