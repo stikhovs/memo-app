@@ -36,7 +36,7 @@ public class TestUserPersistenceService extends BaseCT {
     @Test
     @Order(2)
     void shouldFindUserById() {
-        UserDto userDto = userPersistenceService.findById(1L);
+        UserDto userDto = userPersistenceService.findById(1);
 
         assertThat(userDto).isNotNull();
         assertThat(userDto.id()).isEqualTo(USER_ID_1);
@@ -111,9 +111,9 @@ public class TestUserPersistenceService extends BaseCT {
     @Test
     @Order(7)
     void shouldDeleteUser() {
-        userPersistenceService.delete(USER_ID_2.longValue());
+        userPersistenceService.delete(USER_ID_2);
 
-        assertThatCode(() -> userPersistenceService.findById(USER_ID_2.longValue()))
+        assertThatCode(() -> userPersistenceService.findById(USER_ID_2))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Couldn't find user by id: %s".formatted(USER_ID_2));
     }
