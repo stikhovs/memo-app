@@ -8,7 +8,7 @@ import java.util.UUID;
 @Builder(toBuilder = true)
 public record CardSetDto(Long id,
                          String title,
-                         Long userId,
+                         Integer userId,
                          UUID uuid,
                          List<CardDto> cards) {
 }

@@ -52,7 +52,7 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
         int numberOfRecords = dslContext.insertInto(CardSet.CARD_SET)
                 .set(CardSet.CARD_SET.TITLE, data.title())
                 .set(CardSet.CARD_SET.UUID, UUID.randomUUID())
-                .set(CardSet.CARD_SET.USER_ID, data.userId().intValue())
+                .set(CardSet.CARD_SET.USER_ID, data.userId())
                 .execute();
         return data;
     }

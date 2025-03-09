@@ -33,7 +33,7 @@ public final class PersistenceMapper {
     public static RecordMapper<Record, CardSetDto> toCardSetDto() {
         return record -> CardSetDto.builder()
                 .id(record.get(CardSet.CARD_SET.ID))
-                .userId(record.get(CardSet.CARD_SET.USER_ID).longValue())
+                .userId(record.get(CardSet.CARD_SET.USER_ID))
                 .uuid(record.get(CardSet.CARD_SET.UUID))
                 .title(record.get(CardSet.CARD_SET.TITLE))
                 .build();
