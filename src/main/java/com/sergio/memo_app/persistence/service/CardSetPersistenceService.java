@@ -16,7 +16,7 @@ import static com.sergio.memo_app.mapper.PersistenceMapper.toCardSetDto;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CardSetPersistenceService implements BaseCrud<CardSetDto> {
+public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
 
     private final DSLContext dslContext;
 
