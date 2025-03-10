@@ -1,6 +1,6 @@
 databaseChangeLog:
   - include:
-      file: database/changelogs/03082024-create-tables.sql
+      file: database/changelogs/20240803-create-tables.sql
   - include:
-      file: database/changelogs/03012025-insert-for-tests.sql
+      file: database/changelogs/for-tests/20250103-insert-for-tests.sql
       context: test

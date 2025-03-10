@@ -16,7 +16,7 @@ import static com.sergio.memo_app.mapper.PersistenceMapper.toCardSetDto;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CardSetPersistenceService implements BaseCrud<CardSetDto> {
+public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
 
     private final DSLContext dslContext;
 
@@ -52,7 +52,7 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto> {
         int numberOfRecords = dslContext.insertInto(CardSet.CARD_SET)
                 .set(CardSet.CARD_SET.TITLE, data.title())
                 .set(CardSet.CARD_SET.UUID, UUID.randomUUID())
-                .set(CardSet.CARD_SET.USER_ID, data.userId().intValue())
+                .set(CardSet.CARD_SET.USER_ID, data.userId())
                 .execute();
         return data;
     }

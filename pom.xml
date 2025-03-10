@@ -16,6 +16,7 @@
     <properties>
         <java.version>21</java.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <liquibase.version>4.29.1</liquibase.version>
     </properties>
     <dependencies>
         <dependency>
@@ -33,7 +34,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.29.1</version>
+            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,11 +52,6 @@
             <groupId>org.jooq</groupId>
             <artifactId>jooq-meta</artifactId>
         </dependency>
-        <!--		<dependency>-->
-        <!--			<groupId>org.springframework.boot</groupId>-->
-        <!--			<artifactId>spring-boot-starter-data-jdbc</artifactId>-->
-        <!--			<version>3.3.0</version>-->
-        <!--		</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -115,6 +111,20 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <changeLogFile>/database/changelog-master.yaml</changeLogFile>
+                    <url>jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}</url>
+                    <username>${DB_USER}</username>
+                    <password>${DB_PASSWORD}</password>
+                    <driver>org.postgresql.Driver</driver>
+                    <searchPath>${basedir}/src/main/resources/</searchPath>
+                    <contexts>!test</contexts>
                 </configuration>
             </plugin>
             <plugin>

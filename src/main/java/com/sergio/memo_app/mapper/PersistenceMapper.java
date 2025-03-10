@@ -3,8 +3,10 @@ package com.sergio.memo_app.mapper;
 import com.sergio.memo_app.generated.tables.AppUser;
 import com.sergio.memo_app.generated.tables.Card;
 import com.sergio.memo_app.generated.tables.CardSet;
+import com.sergio.memo_app.generated.tables.TelegramUser;
 import com.sergio.memo_app.persistence.dto.CardDto;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
+import com.sergio.memo_app.persistence.dto.TelegramUserDto;
 import com.sergio.memo_app.persistence.dto.UserDto;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
@@ -19,10 +21,19 @@ public final class PersistenceMapper {
                 .build();
     }
 
+    public static RecordMapper<Record, TelegramUserDto> toTelegramUserDto() {
+        return record -> TelegramUserDto.builder()
+                .id(record.get(TelegramUser.TELEGRAM_USER.ID))
+                .username(record.get(TelegramUser.TELEGRAM_USER.USERNAME))
+                .telegramUserId(record.get(TelegramUser.TELEGRAM_USER.TELEGRAM_USER_ID))
+                .telegramChatId(record.get(TelegramUser.TELEGRAM_USER.TELEGRAM_CHAT_ID))
+                .build();
+    }
+
     public static RecordMapper<Record, CardSetDto> toCardSetDto() {
         return record -> CardSetDto.builder()
                 .id(record.get(CardSet.CARD_SET.ID))
-                .userId(record.get(CardSet.CARD_SET.USER_ID).longValue())
+                .userId(record.get(CardSet.CARD_SET.USER_ID))
                 .uuid(record.get(CardSet.CARD_SET.UUID))
                 .title(record.get(CardSet.CARD_SET.TITLE))
                 .build();
