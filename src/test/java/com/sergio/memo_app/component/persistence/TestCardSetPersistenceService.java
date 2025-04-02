@@ -108,7 +108,7 @@ public class TestCardSetPersistenceService extends BaseCT {
     @Order(7)
     void shouldInsertCardSetWithoutCards() {
         CardSetDto data = CardSetDto.builder()
-                .userId(USER_ID_1.longValue())
+                .userId(USER_ID_1)
                 .title(CARD_SET_TITLE_2)
                 .build();
 
@@ -150,6 +150,13 @@ public class TestCardSetPersistenceService extends BaseCT {
         assertThatCode(() -> cardSetPersistenceService.findById(CARD_SET_ID_2))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Couldn't find card_set by id: %s".formatted(CARD_SET_ID_2));
+    }
+
+    @Test
+    @Order(10)
+    void shouldFindAllByTelegramUserId() {
+        List<CardSetDto> cardSetDtoList = cardSetPersistenceService.findByTelegramChatId(123L);
+        System.out.println(cardSetDtoList);
     }
 
 }

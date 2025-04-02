@@ -1,6 +1,5 @@
 package com.sergio.memo_app.api.dto;
 
-import com.sergio.memo_app.persistence.dto.CardDto;
 import lombok.Builder;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public record CardSetApiDto(Long id,
                             String title,
                             Integer userId,
                             UUID uuid,
-                            List<CardDto> cards) {
+                            List<CardApiDto> cards) {
 }

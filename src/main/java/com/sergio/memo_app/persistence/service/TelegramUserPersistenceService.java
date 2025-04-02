@@ -93,4 +93,13 @@ public class TelegramUserPersistenceService implements BaseCrud<TelegramUserDto,
                 .fetchOptional()
                 .map(toTelegramUserDto());
     }
+
+    public Optional<TelegramUserDto> findByTelegramChatId(Long telegramChatId) {
+        log.info("Searching for a telegram user with telegram chatId [{}]", telegramChatId);
+        return dslContext.select()
+                .from(TelegramUser.TELEGRAM_USER)
+                .where(TelegramUser.TELEGRAM_USER.TELEGRAM_CHAT_ID.eq(telegramChatId))
+                .fetchOptional()
+                .map(toTelegramUserDto());
+    }
 }

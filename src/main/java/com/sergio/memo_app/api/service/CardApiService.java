@@ -27,6 +27,7 @@ public class CardApiService {
         List<CardDto> cardDtoList = cardPersistenceService.findAllBySetId(cardSetId);
         return mapper.toCards(cardDtoList);
     }
+
     public CardApiDto update(Long cardId, CardDto cardDto) {
         CardDto updatedCard = cardPersistenceService.update(cardDto);
         return mapper.toCard(updatedCard);

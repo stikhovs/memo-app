@@ -1,4 +1,4 @@
-package com.sergio.memo_app.api.controller;
+package com.sergio.memo_app.api.controller.telegram;
 
 import com.sergio.memo_app.api.dto.TelegramUserApiDto;
 import com.sergio.memo_app.api.service.TelegramUserApiService;
