@@ -17,7 +17,7 @@ import java.util.List;
 public interface ApiMapper {
 
     CardApiDto toCard(CardDto cardDto);
-    List<CardApiDto> toCards(List<CardDto> cardDtos);
+    List<CardApiDto> toCards(List<CardDto> cards);
     CardSetApiDto toCardSet(CardSetDto cardSetDto);
     List<CardSetApiDto> toCardSets(List<CardSetDto> cardSetDto);
     UserApiDto toUser(UserDto userDto);
