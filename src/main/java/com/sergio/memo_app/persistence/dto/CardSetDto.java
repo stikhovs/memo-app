@@ -9,6 +9,7 @@ import java.util.UUID;
 public record CardSetDto(Long id,
                          String title,
                          Integer userId,
+                         Long telegramChatId,
                          UUID uuid,
                          List<CardDto> cards) {
 }

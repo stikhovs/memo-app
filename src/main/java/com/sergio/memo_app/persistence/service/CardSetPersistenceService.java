@@ -2,6 +2,8 @@ package com.sergio.memo_app.persistence.service;
 
 import com.sergio.memo_app.generated.tables.Card;
 import com.sergio.memo_app.generated.tables.CardSet;
+import com.sergio.memo_app.generated.tables.CompositeUser;
+import com.sergio.memo_app.generated.tables.TelegramUser;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.sergio.memo_app.mapper.PersistenceMapper.toCardSetDto;
@@ -49,12 +52,13 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
 
     @Override
     public CardSetDto insert(CardSetDto data) {
+        UUID uuid = Optional.ofNullable(data.uuid()).orElse(UUID.randomUUID());
         int numberOfRecords = dslContext.insertInto(CardSet.CARD_SET)
                 .set(CardSet.CARD_SET.TITLE, data.title())
-                .set(CardSet.CARD_SET.UUID, UUID.randomUUID())
+                .set(CardSet.CARD_SET.UUID, uuid)
                 .set(CardSet.CARD_SET.USER_ID, data.userId())
                 .execute();
-        return data;
+        return findByUuid(uuid);
     }
 
     @Override
@@ -71,6 +75,15 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
                 .fetchOptional()
                 .map(toCardSetDto())
                 .orElseThrow(() -> new RuntimeException("Couldn't find card_set by title: %s".formatted(title)));
+    }
+
+    public CardSetDto findByUuid(UUID uuid) {
+        return dslContext.select()
+                .from(CardSet.CARD_SET)
+                .where(CardSet.CARD_SET.UUID.eq(uuid))
+                .fetchOptional()
+                .map(toCardSetDto())
+                .orElseThrow(() -> new RuntimeException("Couldn't find card_set by uuid: %s".formatted(uuid)));
     }
 
     public List<CardSetDto> findAllByUserId(Long userId) {
@@ -97,4 +110,14 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
                 .fetch(toCardSetDto());
     }
 
+    public List<CardSetDto> findByTelegramChatId(Long telegramChatId) {
+        return dslContext.select()
+                .from(CardSet.CARD_SET)
+                .join(CompositeUser.COMPOSITE_USER)
+                .on(CompositeUser.COMPOSITE_USER.ID.eq(CardSet.CARD_SET.USER_ID))
+                .join(TelegramUser.TELEGRAM_USER)
+                .on(TelegramUser.TELEGRAM_USER.ID.eq(CompositeUser.COMPOSITE_USER.TELEGRAM_USER_ID))
+                .where(TelegramUser.TELEGRAM_USER.TELEGRAM_CHAT_ID.eq(telegramChatId))
+                .fetch(toCardSetDto());
+    }
 }
