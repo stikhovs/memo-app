@@ -12,12 +12,12 @@ public class UserController {
 
     private final UserApiService userApiService;
 
-    @PostMapping("/user/create")
+    @PostMapping("/api/user/create")
     public UserApiDto create(@RequestBody UserDto userDto) {
         return userApiService.create(userDto);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/api/user")
     public UserApiDto get(@RequestParam String username) {
         return userApiService.get(username);
     }

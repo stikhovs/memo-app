@@ -16,15 +16,15 @@ public class CardController {
     private final CardPersistenceService cardPersistenceService;
     private final CardApiService cardApiService;
 
-    @PostMapping("/card")
+    @PostMapping("/api/card")
     public List<CardApiDto> save(@RequestParam Long setId, @RequestBody List<CardDto> cardDto) {
         return cardApiService.save(setId, cardDto);
     }
-    @GetMapping("/card")
+    @GetMapping("/api/card")
     public List<CardApiDto> find(@RequestParam Long cardSetId) {
         return cardApiService.find(cardSetId);
     }
-    @PutMapping("/card")
+    @PutMapping("/api/card")
     public CardApiDto update(@RequestParam Long cardId, @RequestBody CardDto cardDto) {
         return cardApiService.update(cardId, cardDto);
     }

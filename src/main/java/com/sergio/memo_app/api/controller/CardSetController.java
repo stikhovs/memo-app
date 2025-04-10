@@ -14,28 +14,28 @@ public class CardSetController {
 
     private final CardSetApiService cardSetApiService;
 
-    @PostMapping("/set/save")
+    @PostMapping("/api/set/save")
     public CardSetApiDto save(@RequestBody CardSetDto cardSetDto) {
         return cardSetApiService.save(cardSetDto);
     }
 
-    @GetMapping("/set")
+    @GetMapping("/api/set")
     public CardSetApiDto findByTitle(@RequestParam String title) {
         return cardSetApiService.findByTitle(title);
     }
-    @GetMapping("/set/{id}")
+    @GetMapping("/api/set/{id}")
     public CardSetApiDto findById(@PathVariable Long id) {
         return cardSetApiService.findById(id);
     }
-    @GetMapping("/set-by-user")
+    @GetMapping("/api/set-by-user")
     public List<CardSetApiDto> findByUserId(@RequestParam Long userId) {
         return cardSetApiService.findByUserId(userId);
     }
-    @GetMapping("/sets")
+    @GetMapping("/api/sets")
     public List<CardSetApiDto> getSets(@RequestParam Long userId, @RequestParam List<Long> ids) {
         return cardSetApiService.getSets(userId, ids);
     }
-    @GetMapping("/titles-and-ids")
+    @GetMapping("/api/titles-and-ids")
     public List<CardSetApiDto> getTitlesAndIds(@RequestParam Long userId) {
         return cardSetApiService.getTitlesAndIds(userId);
     }
