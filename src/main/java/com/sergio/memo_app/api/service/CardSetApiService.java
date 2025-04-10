@@ -8,6 +8,7 @@ import com.sergio.memo_app.persistence.service.TelegramUserPersistenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -75,5 +76,11 @@ public class CardSetApiService {
     public CardSetApiDto update(CardSetDto data) {
         CardSetDto result = cardSetPersistenceService.update(data);
         return mapper.toCardSet(result);
+    }
+
+    @Transactional
+    public void delete(Long setId) {
+        cardApiService.deleteBySetId(setId);
+        cardSetPersistenceService.delete(setId);
     }
 }

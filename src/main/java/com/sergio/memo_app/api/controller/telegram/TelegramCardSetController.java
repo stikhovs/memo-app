@@ -32,4 +32,9 @@ public class TelegramCardSetController {
     public CardSetApiDto update(@RequestBody CardSetDto cardSetDto) {
         return cardSetApiService.update(cardSetDto);
     }
+
+    @DeleteMapping("/telegram/set/delete")
+    public void delete(@RequestParam Long cardSetId) {
+        cardSetApiService.delete(cardSetId);
+    }
 }

@@ -22,4 +22,13 @@ public class TelegramCardController {
     public CardApiDto update(@RequestBody CardDto cardDto) {
         return cardApiService.update(cardDto.id(), cardDto);
     }
+    @PostMapping("/telegram/card/add")
+    public CardApiDto add(@RequestParam Long cardSetId, @RequestBody CardDto cardDto) {
+        return cardApiService.add(cardSetId, cardDto);
+    }
+    @DeleteMapping("/telegram/card/delete")
+    public void delete(@RequestParam Long cardId) {
+        cardApiService.deleteByCardId(cardId);
+    }
+
 }

@@ -74,6 +74,11 @@ public class CardPersistenceService implements BaseCrud<CardDto, Long> {
                 .where(Card.CARD.ID.eq(id))
                 .execute();
     }
+    public void deleteBySetId(Long setId) {
+        dslContext.delete(Card.CARD)
+                .where(Card.CARD.CARD_SET_ID.eq(setId))
+                .execute();
+    }
 
     public List<CardDto> addCards(Long setId, List<CardDto> cards) {
         List<CardRecord> cardRecords = cards.stream()

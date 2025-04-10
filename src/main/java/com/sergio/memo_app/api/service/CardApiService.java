@@ -32,4 +32,17 @@ public class CardApiService {
         CardDto updatedCard = cardPersistenceService.update(cardDto);
         return mapper.toCard(updatedCard);
     }
+
+    public void deleteByCardId(Long cardId) {
+        cardPersistenceService.delete(cardId);
+    }
+
+    public void deleteBySetId(Long setId) {
+        cardPersistenceService.deleteBySetId(setId);
+    }
+
+    public CardApiDto add(Long cardSetId, CardDto cardDto) {
+        CardDto savedCard = cardPersistenceService.insert(cardSetId, cardDto);
+        return mapper.toCard(savedCard);
+    }
 }
