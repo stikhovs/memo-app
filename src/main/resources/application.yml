@@ -16,3 +16,6 @@ spring:
   liquibase:
     change-log: classpath:database/changelog-master.yaml
     contexts: production
+
+telegram:
+  bot-secret: ${BOT_SECRET}
