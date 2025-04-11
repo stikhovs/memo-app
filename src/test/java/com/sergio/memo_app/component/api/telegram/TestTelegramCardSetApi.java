@@ -6,6 +6,8 @@ import com.sergio.memo_app.persistence.dto.CardDto;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.http.Headers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +45,7 @@ public class TestTelegramCardSetApi extends BaseCT {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestBody)
+                .headers(Headers.headers(new Header("X-Internal-Auth", "test-key")))
                 .put("/telegram/set/update")
                 .then()
                 .statusCode(200)

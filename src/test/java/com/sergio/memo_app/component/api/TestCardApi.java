@@ -45,7 +45,7 @@ public class TestCardApi extends BaseCT {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestBody)
-                .post("/card?setId=%s".formatted(CARD_SET_ID_1))
+                .post("/api/card?setId=%s".formatted(CARD_SET_ID_1))
                 .then()
                 .statusCode(200)
                 .body(".", Matchers.hasSize(7))
@@ -65,7 +65,7 @@ public class TestCardApi extends BaseCT {
     void shouldFindCards() {
         given()
                 .when()
-                .get("/card?cardSetId=%s".formatted(CARD_SET_ID_1))
+                .get("/api/card?cardSetId=%s".formatted(CARD_SET_ID_1))
                 .then()
                 .statusCode(200)
                 .body(".", Matchers.hasSize(7))
@@ -88,7 +88,7 @@ public class TestCardApi extends BaseCT {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestBody)
-                .put("/card?cardId=%s".formatted(7)) // TODO: cardId request param can be removed
+                .put("/api/card?cardId=%s".formatted(7)) // TODO: cardId request param can be removed
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.equalTo(7))

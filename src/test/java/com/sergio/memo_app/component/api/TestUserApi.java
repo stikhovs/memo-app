@@ -41,7 +41,7 @@ public class TestUserApi extends BaseCT {
 
         given()
                 .when()
-                .get("/user?username=test user")
+                .get("/api/user?username=test user")
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.is(1))
@@ -61,7 +61,7 @@ public class TestUserApi extends BaseCT {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestBody)
-                .post("/user/create")
+                .post("/api/user/create")
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.is(2))

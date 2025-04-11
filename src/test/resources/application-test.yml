@@ -6,3 +6,6 @@ spring:
   sql.init.mode: always
   liquibase:
     contexts: test
+
+telegram:
+  bot-secret: test-key
