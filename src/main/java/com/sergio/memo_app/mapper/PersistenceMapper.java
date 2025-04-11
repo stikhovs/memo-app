@@ -1,13 +1,7 @@
 package com.sergio.memo_app.mapper;
 
-import com.sergio.memo_app.generated.tables.AppUser;
-import com.sergio.memo_app.generated.tables.Card;
-import com.sergio.memo_app.generated.tables.CardSet;
-import com.sergio.memo_app.generated.tables.TelegramUser;
-import com.sergio.memo_app.persistence.dto.CardDto;
-import com.sergio.memo_app.persistence.dto.CardSetDto;
-import com.sergio.memo_app.persistence.dto.TelegramUserDto;
-import com.sergio.memo_app.persistence.dto.UserDto;
+import com.sergio.memo_app.generated.tables.*;
+import com.sergio.memo_app.persistence.dto.*;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
 
@@ -34,6 +28,7 @@ public final class PersistenceMapper {
         return record -> CardSetDto.builder()
                 .id(record.get(CardSet.CARD_SET.ID))
                 .userId(record.get(CardSet.CARD_SET.USER_ID))
+                .categoryId(record.get(CardSet.CARD_SET.CATEGORY_ID))
                 .uuid(record.get(CardSet.CARD_SET.UUID))
                 .title(record.get(CardSet.CARD_SET.TITLE))
                 .build();
@@ -44,6 +39,14 @@ public final class PersistenceMapper {
                 .id(record.get(Card.CARD.ID))
                 .frontSide(record.get(Card.CARD.FRONT_SIDE))
                 .backSide(record.get(Card.CARD.BACK_SIDE))
+                .build();
+    }
+
+    public static RecordMapper<Record, CategoryDto> toCategoryDto() {
+        return record -> CategoryDto.builder()
+                .id(record.get(Category.CATEGORY.ID))
+                .title(record.get(Category.CATEGORY.TITLE))
+                .userId(record.get(Category.CATEGORY.USER_ID))
                 .build();
     }
 }

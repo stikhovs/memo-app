@@ -71,6 +71,17 @@ public class TestCompositeUserPersistenceService extends BaseCT {
 
     @Test
     @Order(5)
+    void shouldFindUserByTelegramChatId() {
+        CompositeUserRecord result = compositeUserPersistenceService.findByTelegramChatId(456L);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(1);
+        assertThat(result.getTelegramUserId()).isEqualTo(1);
+        assertThat(result.getAppUserId()).isEqualTo(1);
+    }
+
+    @Test
+    @Order(6)
     void shouldInsertUser() {
         CompositeUserRecord compositeUserRecord = new CompositeUserRecord();
 
@@ -85,7 +96,7 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void shouldUpdateAppUserId() {
         CompositeUserRecord toBeUpdated = compositeUserPersistenceService.findById(1);
         toBeUpdated.setAppUserId(null);
@@ -101,7 +112,7 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     void shouldUpdateTelegramUserId() {
         CompositeUserRecord toBeUpdated = compositeUserPersistenceService.findById(1);
         toBeUpdated.setTelegramUserId(null);
@@ -117,7 +128,7 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     void shouldDeleteUser() {
         compositeUserPersistenceService.delete(2);
 

@@ -31,6 +31,10 @@ public class CardSetController {
     public List<CardSetApiDto> findByUserId(@RequestParam Long userId) {
         return cardSetApiService.findByUserId(userId);
     }
+    @GetMapping("/api/set-by-category")
+    public List<CardSetApiDto> findByCategoryId(@RequestParam Long categoryId) {
+        return cardSetApiService.findByCategoryId(categoryId);
+    }
     @GetMapping("/api/sets")
     public List<CardSetApiDto> getSets(@RequestParam Long userId, @RequestParam List<Long> ids) {
         return cardSetApiService.getSets(userId, ids);

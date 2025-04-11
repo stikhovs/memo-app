@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.sergio.memo_app.util.ConstantHelper.CardSet.*;
+import static com.sergio.memo_app.util.ConstantHelper.Category.CATEGORY_ID_1;
 import static com.sergio.memo_app.util.ConstantHelper.User.USER_ID_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -84,7 +85,7 @@ public class TestCardSetPersistenceService extends BaseCT {
         assertThat(cardSetDtoList).hasSize(1);
         assertThat(cardSetDtoList.getFirst()).isNotNull();
         assertThat(cardSetDtoList.getFirst().id()).isEqualTo(CARD_SET_ID_1);
-        assertThat(cardSetDtoList.getFirst().userId()).isEqualTo(USER_ID_1.longValue());
+        assertThat(cardSetDtoList.getFirst().userId()).isEqualTo(USER_ID_1);
         assertThat(cardSetDtoList.getFirst().title()).isEqualTo(ConstantHelper.CardSet.CARD_SET_TITLE_1);
         assertThat(cardSetDtoList.getFirst().uuid()).isNotNull();
         assertThat(cardSetDtoList.getFirst().uuid().toString()).isEqualTo(ConstantHelper.CardSet.CARD_SET_UUID_1);
@@ -98,7 +99,7 @@ public class TestCardSetPersistenceService extends BaseCT {
         assertThat(cardSetDtoList).hasSize(1);
         assertThat(cardSetDtoList.getFirst()).isNotNull();
         assertThat(cardSetDtoList.getFirst().id()).isEqualTo(CARD_SET_ID_1);
-        assertThat(cardSetDtoList.getFirst().userId()).isEqualTo(USER_ID_1.longValue());
+        assertThat(cardSetDtoList.getFirst().userId()).isEqualTo(USER_ID_1);
         assertThat(cardSetDtoList.getFirst().title()).isEqualTo(ConstantHelper.CardSet.CARD_SET_TITLE_1);
         assertThat(cardSetDtoList.getFirst().uuid()).isNotNull();
         assertThat(cardSetDtoList.getFirst().uuid().toString()).isEqualTo(ConstantHelper.CardSet.CARD_SET_UUID_1);
@@ -110,6 +111,7 @@ public class TestCardSetPersistenceService extends BaseCT {
         CardSetDto data = CardSetDto.builder()
                 .userId(USER_ID_1)
                 .title(CARD_SET_TITLE_2)
+                .categoryId(CATEGORY_ID_1)
                 .build();
 
         cardSetPersistenceService.insert(data);
@@ -117,7 +119,8 @@ public class TestCardSetPersistenceService extends BaseCT {
         CardSetDto cardSetDto = cardSetPersistenceService.findByTitle(CARD_SET_TITLE_2);
         assertThat(cardSetDto).isNotNull();
         assertThat(cardSetDto.id()).isEqualTo(CARD_SET_ID_2);
-        assertThat(cardSetDto.userId()).isEqualTo(USER_ID_1.longValue());
+        assertThat(cardSetDto.userId()).isEqualTo(USER_ID_1);
+        assertThat(cardSetDto.categoryId()).isEqualTo(CATEGORY_ID_1);
         assertThat(cardSetDto.title()).isEqualTo(ConstantHelper.CardSet.CARD_SET_TITLE_2);
         assertThat(cardSetDto.uuid()).isNotNull();
         assertThat(cardSetDto.cards()).isNull();
@@ -129,6 +132,7 @@ public class TestCardSetPersistenceService extends BaseCT {
         CardSetDto data = CardSetDto.builder()
                 .id(CARD_SET_ID_2)
                 .title(CARD_SET_TITLE_2 + " updated")
+                .categoryId(CATEGORY_ID_1)
                 .build();
 
         cardSetPersistenceService.update(data);
@@ -136,7 +140,8 @@ public class TestCardSetPersistenceService extends BaseCT {
         CardSetDto cardSetDto = cardSetPersistenceService.findByTitle(CARD_SET_TITLE_2 + " updated");
         assertThat(cardSetDto).isNotNull();
         assertThat(cardSetDto.id()).isEqualTo(CARD_SET_ID_2);
-        assertThat(cardSetDto.userId()).isEqualTo(USER_ID_1.longValue());
+        assertThat(cardSetDto.userId()).isEqualTo(USER_ID_1);
+        assertThat(cardSetDto.categoryId()).isEqualTo(CATEGORY_ID_1);
         assertThat(cardSetDto.title()).isEqualTo(ConstantHelper.CardSet.CARD_SET_TITLE_2 + " updated");
         assertThat(cardSetDto.uuid()).isNotNull();
         assertThat(cardSetDto.cards()).isNull();

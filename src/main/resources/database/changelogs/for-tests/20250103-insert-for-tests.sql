@@ -11,9 +11,14 @@ INSERT INTO composite_user
 (app_user_id, telegram_user_id, created_at, updated_at)
 VALUES(1, 1, now(), now());
 
+--changeset stikhovs:insert-test-category
+INSERT INTO category
+(title, user_id, created_at, updated_at)
+VALUES('default', 1, now(), now());
+
 --changeset stikhovs:insert-test-card_set
-INSERT INTO card_set (title, uuid, user_id, created_at, updated_at)
-VALUES('test card set', 'fa89840d-44ba-455e-91ce-589f3b3a7b24', 1, now(), now());
+INSERT INTO card_set (title, uuid, user_id, category_id, created_at, updated_at)
+VALUES('test card set', 'fa89840d-44ba-455e-91ce-589f3b3a7b24', 1, 1, now(), now());
 
 --changeset stikhovs:insert-test-cards
 INSERT INTO card (front_side, back_side, card_set_id, created_at, updated_at)

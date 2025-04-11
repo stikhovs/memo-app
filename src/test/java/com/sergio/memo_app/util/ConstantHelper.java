@@ -1,5 +1,7 @@
 package com.sergio.memo_app.util;
 
+import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
+
 public final class ConstantHelper {
 
     public static class User {
@@ -33,5 +35,17 @@ public final class ConstantHelper {
         public static String getBackSide(int num) {
             return "back " + num;
         }
+    }
+
+    public static class Category {
+        public static Long CATEGORY_ID_1 = 1L;
+        public static Long CATEGORY_ID_2 = 2L;
+        public static String CATEGORY_TITLE_1 = CategoryConstant.DEFAULT_CATEGORY;
+        public static String CATEGORY_TITLE_2 = "test category";
+    }
+
+    public static class Header {
+        public static String X_INTERNAL_AUTH_KEY = "X-Internal-Auth";
+        public static String X_INTERNAL_AUTH_VALUE = "test-key";
     }
 }

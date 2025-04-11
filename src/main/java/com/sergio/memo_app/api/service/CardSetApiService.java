@@ -1,16 +1,21 @@
 package com.sergio.memo_app.api.service;
 
 import com.sergio.memo_app.api.dto.CardSetApiDto;
+import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
 import com.sergio.memo_app.mapper.ApiMapper;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
+import com.sergio.memo_app.persistence.dto.CategoryDto;
+import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import com.sergio.memo_app.persistence.service.CardSetPersistenceService;
-import com.sergio.memo_app.persistence.service.TelegramUserPersistenceService;
+import com.sergio.memo_app.persistence.service.CategoryPersistenceService;
+import com.sergio.memo_app.persistence.service.CompositeUserPersistenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,20 +24,23 @@ public class CardSetApiService {
 
     private final ApiMapper mapper;
     private final CardSetPersistenceService cardSetPersistenceService;
-    private final TelegramUserPersistenceService telegramUserPersistenceService;
     private final CardApiService cardApiService;
+    private final CategoryPersistenceService categoryPersistenceService;
+    private final CompositeUserPersistenceService compositeUserPersistenceService;
 
+    @Transactional
+    public CardSetApiDto saveFromTelegram(CardSetDto data) {
+        CompositeUserRecord user = compositeUserPersistenceService.findByTelegramChatId(data.telegramChatId());
+        CardSetDto dataWithUser = data.toBuilder().userId(user.getId()).build();
+        CardSetDto preparedData = dataWithUser.toBuilder().categoryId(getCategoryId(data)).build();
+        return save(preparedData);
+    }
+
+    @Transactional
     public CardSetApiDto save(CardSetDto data) {
-        if (data.telegramChatId() != null) {
-            return telegramUserPersistenceService.findByTelegramChatId(data.telegramChatId())
-                    .map(telegramUserDto -> data.toBuilder().telegramChatId(null).userId(telegramUserDto.id()).build())
-                    .map(this::save)
-                    .orElseThrow(() -> new RuntimeException("Couldn't find telegram user by chatId: %s".formatted(data.telegramChatId())));
-        } else {
-            CardSetDto inserted = cardSetPersistenceService.insert(data);
-            cardApiService.save(inserted.id(), data.cards());
-            return mapper.toCardSet(inserted);
-        }
+        CardSetDto inserted = cardSetPersistenceService.insert(data);
+        cardApiService.save(inserted.id(), data.cards());
+        return mapper.toCardSet(inserted);
     }
 
     public CardSetApiDto findByTitle(String title) {
@@ -47,6 +55,11 @@ public class CardSetApiService {
 
     public List<CardSetApiDto> findByUserId(Long userId) {
         List<CardSetDto> cardSetDtoList = cardSetPersistenceService.findAllByUserId(userId);
+        return mapper.toCardSets(cardSetDtoList);
+    }
+
+    public List<CardSetApiDto> findByCategoryId(Long categoryId) {
+        List<CardSetDto> cardSetDtoList = cardSetPersistenceService.findAllByCategoryId(categoryId);
         return mapper.toCardSets(cardSetDtoList);
     }
 
@@ -82,5 +95,17 @@ public class CardSetApiService {
     public void delete(Long setId) {
         cardApiService.deleteBySetId(setId);
         cardSetPersistenceService.delete(setId);
+    }
+
+    private Long getCategoryId(CardSetDto data) {
+        if (data.categoryId() == null) {
+            Optional<CategoryDto> defaultCategory = categoryPersistenceService.findByUserIdAndTitle(data.userId(), CategoryConstant.DEFAULT_CATEGORY);
+            if (defaultCategory.isPresent()) {
+                return defaultCategory.get().id();
+            }
+            CategoryDto category = CategoryDto.builder().userId(data.userId()).build();
+            return categoryPersistenceService.insert(category).id();
+        }
+        return data.categoryId();
     }
 }

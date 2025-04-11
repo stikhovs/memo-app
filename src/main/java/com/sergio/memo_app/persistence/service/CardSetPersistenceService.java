@@ -45,6 +45,7 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
     public CardSetDto update(CardSetDto data) {
         int numberOfRecords = dslContext.update(CardSet.CARD_SET)
                 .set(CardSet.CARD_SET.TITLE, data.title())
+                .set(CardSet.CARD_SET.CATEGORY_ID, data.categoryId())
                 .where(CardSet.CARD_SET.ID.eq(data.id()))
                 .execute();
         return data;
@@ -57,6 +58,7 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
                 .set(CardSet.CARD_SET.TITLE, data.title())
                 .set(CardSet.CARD_SET.UUID, uuid)
                 .set(CardSet.CARD_SET.USER_ID, data.userId())
+                .set(CardSet.CARD_SET.CATEGORY_ID, data.categoryId())
                 .execute();
         return findByUuid(uuid);
     }
@@ -90,6 +92,13 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
         return dslContext.select()
                 .from(CardSet.CARD_SET)
                 .where(CardSet.CARD_SET.USER_ID.eq(userId.intValue()))
+                .fetch(toCardSetDto());
+    }
+
+    public List<CardSetDto> findAllByCategoryId(Long categoryId) {
+        return dslContext.select()
+                .from(CardSet.CARD_SET)
+                .where(CardSet.CARD_SET.CATEGORY_ID.eq(categoryId))
                 .fetch(toCardSetDto());
     }
 

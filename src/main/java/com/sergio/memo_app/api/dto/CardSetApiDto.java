@@ -9,6 +9,7 @@ import java.util.UUID;
 public record CardSetApiDto(Long id,
                             String title,
                             Integer userId,
+                            Long categoryId,
                             UUID uuid,
                             List<CardApiDto> cards) {
 }

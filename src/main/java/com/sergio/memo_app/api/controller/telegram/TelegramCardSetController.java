@@ -25,7 +25,7 @@ public class TelegramCardSetController {
 
     @PostMapping("/telegram/set/save")
     public CardSetApiDto save(@RequestBody CardSetDto cardSetDto) {
-        return cardSetApiService.save(cardSetDto);
+        return cardSetApiService.saveFromTelegram(cardSetDto);
     }
 
     @PutMapping("/telegram/set/update")
