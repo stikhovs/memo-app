@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,9 +18,9 @@ public class SecurityConfiguration {
     private String botSecret;
 
     @Bean
-    @Order(1)
     public SecurityFilterChain telegramFilter(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .securityMatcher("/telegram/**")
                 .addFilterBefore(new BotAuthFilter(botSecret), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
@@ -31,7 +30,7 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    @Bean
+    /*@Bean
     @Order(2)
     public SecurityFilterChain webAppFilter(HttpSecurity http) throws Exception {
         http
@@ -40,16 +39,16 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 ;
-                /*.oauth2ResourceServer((oauth2ResourceServer) ->
+                *//*.oauth2ResourceServer((oauth2ResourceServer) ->
                         oauth2ResourceServer
                                 .jwt((jwt) ->
                                         jwt
                                                 .decoder(jwtDecoder())
                                 )
-                );*/
+                );*//*
 
         return http.build();
-    }
+    }*/
 
     /*@Bean
     public JwtDecoder jwtDecoder() {
