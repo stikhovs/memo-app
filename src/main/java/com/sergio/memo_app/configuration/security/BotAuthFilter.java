@@ -22,8 +22,6 @@ public class BotAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String header = request.getHeader("X-Internal-Auth");
-        System.out.println("botSecret: " + botSecret);
-        System.out.println("header: " + header);
         if (!botSecret.equals(header)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
