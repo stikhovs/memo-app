@@ -36,7 +36,7 @@ public class TelegramCategoryController {
     }
 
     @DeleteMapping("/telegram/category/delete")
-    public void delete(@RequestParam Long categoryId) {
-        categoryApiService.delete(categoryId);
+    public void delete(@RequestParam Long categoryId, @RequestParam boolean keepSets) {
+        categoryApiService.delete(categoryId, keepSets);
     }
 }

@@ -135,5 +135,13 @@ public class TestCategoryPersistenceService extends BaseCT {
         Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(456L, CATEGORY_TITLE_2.toUpperCase());
         assertThat(result).isEmpty();
     }
+    @Test
+    @Order(11)
+    void shouldDeleteWithCards() {
+        categoryPersistenceService.delete(CATEGORY_ID_1);
+
+        Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(456L, CATEGORY_TITLE_1);
+        assertThat(result).isEmpty();
+    }
 
 }

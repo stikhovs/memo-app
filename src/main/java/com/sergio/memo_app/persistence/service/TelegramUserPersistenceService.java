@@ -2,7 +2,9 @@ package com.sergio.memo_app.persistence.service;
 
 import com.sergio.memo_app.generated.tables.TelegramUser;
 import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
+import com.sergio.memo_app.persistence.dto.CategoryDto;
 import com.sergio.memo_app.persistence.dto.TelegramUserDto;
+import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
@@ -17,10 +19,11 @@ import static com.sergio.memo_app.mapper.PersistenceMapper.toTelegramUserDto;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TelegramUserPersistenceService implements BaseCrud<TelegramUserDto, Integer>{
+public class TelegramUserPersistenceService implements BaseCrud<TelegramUserDto, Integer> {
 
     private final DSLContext dslContext;
     private final CompositeUserPersistenceService compositeUserPersistenceService;
+    private final CategoryPersistenceService categoryPersistenceService;
 
     @Override
     public List<TelegramUserDto> findAll() {
@@ -68,7 +71,12 @@ public class TelegramUserPersistenceService implements BaseCrud<TelegramUserDto,
         TelegramUserDto savedUser = findByTelegramUserId(data.telegramUserId()).orElseThrow();
         CompositeUserRecord compositeUserRecord = new CompositeUserRecord();
         compositeUserRecord.setTelegramUserId(savedUser.id());
-        compositeUserPersistenceService.insert(compositeUserRecord);
+        CompositeUserRecord createdUser = compositeUserPersistenceService.insert(compositeUserRecord);
+
+        categoryPersistenceService.insert(CategoryDto.builder()
+                .userId(createdUser.getId())
+                .title(CategoryConstant.DEFAULT_CATEGORY)
+                .build());
 
         return data;
     }

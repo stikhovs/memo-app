@@ -55,7 +55,7 @@ public class CategoryPersistenceService implements BaseCrud<CategoryDto, Long> {
     @Transactional
     public CategoryDto insert(CategoryDto data) {
         int numberOfRecords = dslContext.insertInto(Category.CATEGORY)
-                .set(Category.CATEGORY.TITLE, isBlank(data.title()) ? CategoryConstant.DEFAULT_CATEGORY : data.title())
+                .set(Category.CATEGORY.TITLE, data.title())
                 .set(Category.CATEGORY.USER_ID, data.userId())
                 .execute();
         return getByUserIdAndTitle(data.userId(), data.title());

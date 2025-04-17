@@ -27,11 +27,11 @@ public class CardSetController {
     public CardSetApiDto findById(@PathVariable Long id) {
         return cardSetApiService.findById(id);
     }
-    @GetMapping("/api/set-by-user")
+    @GetMapping("/api/sets-by-user")
     public List<CardSetApiDto> findByUserId(@RequestParam Long userId) {
         return cardSetApiService.findByUserId(userId);
     }
-    @GetMapping("/api/set-by-category")
+    @GetMapping("/api/sets-by-category")
     public List<CardSetApiDto> findByCategoryId(@RequestParam Long categoryId) {
         return cardSetApiService.findByCategoryId(categoryId);
     }

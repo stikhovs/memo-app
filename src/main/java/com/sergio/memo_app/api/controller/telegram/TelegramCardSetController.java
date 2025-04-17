@@ -23,6 +23,11 @@ public class TelegramCardSetController {
         return cardSetApiService.findBySetId(cardSetId);
     }
 
+    @GetMapping("/telegram/sets-by-category")
+    public List<CardSetApiDto> findByCategoryId(@RequestParam Long categoryId) {
+        return cardSetApiService.findByCategoryId(categoryId);
+    }
+
     @PostMapping("/telegram/set/save")
     public CardSetApiDto save(@RequestBody CardSetDto cardSetDto) {
         return cardSetApiService.saveFromTelegram(cardSetDto);
@@ -31,6 +36,10 @@ public class TelegramCardSetController {
     @PutMapping("/telegram/set/update")
     public CardSetApiDto update(@RequestBody CardSetDto cardSetDto) {
         return cardSetApiService.update(cardSetDto);
+    }
+    @PutMapping("/telegram/set/update-category-batch")
+    public void updateCategoryBatch(@RequestBody List<Long> cardSetIds, @RequestParam Long categoryId) {
+        cardSetApiService.updateCategoryBatch(categoryId, cardSetIds);
     }
 
     @DeleteMapping("/telegram/set/delete")

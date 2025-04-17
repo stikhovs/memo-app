@@ -8,7 +8,9 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import org.hamcrest.Matchers;
+import org.jooq.DSLContext;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
@@ -21,6 +23,9 @@ import static io.restassured.RestAssured.given;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestTelegramCategoryApi extends BaseCT {
+
+    @Autowired
+    private DSLContext dslContext;
 
     @LocalServerPort
     private Integer port;
@@ -105,12 +110,24 @@ public class TestTelegramCategoryApi extends BaseCT {
 
     @Test
     @Order(5)
-    void shouldDelete() {
+    void shouldDeleteWithoutCards() {
         given()
                 .when()
                 .contentType(ContentType.JSON)
                 .headers(Headers.headers(new Header(X_INTERNAL_AUTH_KEY, X_INTERNAL_AUTH_VALUE)))
-                .delete("/telegram/category/delete?categoryId=%s".formatted(CATEGORY_ID_2))
+                .delete("/telegram/category/delete?categoryId=%s&keepSets=true".formatted(CATEGORY_ID_2))
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    @Order(6)
+    void shouldDeleteWithCards() {
+        given()
+                .when()
+                .contentType(ContentType.JSON)
+                .headers(Headers.headers(new Header(X_INTERNAL_AUTH_KEY, X_INTERNAL_AUTH_VALUE)))
+                .delete("/telegram/category/delete?categoryId=%s&keepSets=false".formatted(CATEGORY_ID_2))
                 .then()
                 .statusCode(200);
     }

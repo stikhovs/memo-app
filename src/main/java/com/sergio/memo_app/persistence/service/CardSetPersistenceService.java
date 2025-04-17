@@ -51,6 +51,13 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
         return data;
     }
 
+    public void updateCategory(Long categoryId, List<Long> cardSetIds) {
+        dslContext.update(CardSet.CARD_SET)
+                .set(CardSet.CARD_SET.CATEGORY_ID, categoryId)
+                .where(CardSet.CARD_SET.ID.in(cardSetIds))
+                .execute();
+    }
+
     @Override
     public CardSetDto insert(CardSetDto data) {
         UUID uuid = Optional.ofNullable(data.uuid()).orElse(UUID.randomUUID());
@@ -67,6 +74,12 @@ public class CardSetPersistenceService implements BaseCrud<CardSetDto, Long> {
     public void delete(Long id) {
         dslContext.delete(CardSet.CARD_SET)
                 .where(CardSet.CARD_SET.ID.eq(id))
+                .execute();
+    }
+
+    public void deleteAll(List<Long> ids) {
+        dslContext.delete(CardSet.CARD_SET)
+                .where(CardSet.CARD_SET.ID.in(ids))
                 .execute();
     }
 

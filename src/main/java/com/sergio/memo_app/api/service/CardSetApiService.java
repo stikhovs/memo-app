@@ -32,7 +32,7 @@ public class CardSetApiService {
     public CardSetApiDto saveFromTelegram(CardSetDto data) {
         CompositeUserRecord user = compositeUserPersistenceService.findByTelegramChatId(data.telegramChatId());
         CardSetDto dataWithUser = data.toBuilder().userId(user.getId()).build();
-        CardSetDto preparedData = dataWithUser.toBuilder().categoryId(getCategoryId(data)).build();
+        CardSetDto preparedData = dataWithUser.toBuilder().categoryId(getCategoryId(dataWithUser)).build();
         return save(preparedData);
     }
 
@@ -89,6 +89,10 @@ public class CardSetApiService {
     public CardSetApiDto update(CardSetDto data) {
         CardSetDto result = cardSetPersistenceService.update(data);
         return mapper.toCardSet(result);
+    }
+
+    public void updateCategoryBatch(Long categoryId, List<Long> cardSetIds) {
+        cardSetPersistenceService.updateCategory(categoryId, cardSetIds);
     }
 
     @Transactional

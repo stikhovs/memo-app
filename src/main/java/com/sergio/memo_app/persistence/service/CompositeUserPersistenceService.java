@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -71,13 +72,16 @@ public class CompositeUserPersistenceService implements BaseCrud<CompositeUserRe
     }
 
     @Override
+    @Transactional
     public CompositeUserRecord insert(CompositeUserRecord data) {
         log.info("Inserting {}", data);
         int execute = dslContext.insertInto(CompositeUser.COMPOSITE_USER)
                 .set(CompositeUser.COMPOSITE_USER.TELEGRAM_USER_ID, data.getTelegramUserId())
                 .set(CompositeUser.COMPOSITE_USER.APP_USER_ID, data.getAppUserId())
                 .execute();
-        return data;
+        return Optional.ofNullable(data.getTelegramUserId())
+                .flatMap(this::findByTelegramUserId)
+                .orElseGet(() -> findByAppUserId(data.getAppUserId()).orElseThrow());
     }
 
     @Override

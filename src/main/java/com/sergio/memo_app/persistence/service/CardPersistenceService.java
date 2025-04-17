@@ -97,4 +97,10 @@ public class CardPersistenceService implements BaseCrud<CardDto, Long> {
 
         return findAllBySetId(setId);
     }
+
+    public void deleteBySetIds(List<Long> cardSetIds) {
+        dslContext.delete(Card.CARD)
+                .where(Card.CARD.CARD_SET_ID.in(cardSetIds))
+                .execute();
+    }
 }

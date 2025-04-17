@@ -45,4 +45,8 @@ public class CardApiService {
         CardDto savedCard = cardPersistenceService.insert(cardSetId, cardDto);
         return mapper.toCard(savedCard);
     }
+
+    public void deleteBySetIds(List<Long> cardSetIds) {
+        cardPersistenceService.deleteBySetIds(cardSetIds);
+    }
 }
