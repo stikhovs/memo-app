@@ -2,7 +2,12 @@ package com.sergio.memo_app.component.persistence;
 
 import com.sergio.memo_app.component.base.BaseCT;
 import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
+import com.sergio.memo_app.persistence.dto.CategoryDto;
+import com.sergio.memo_app.persistence.dto.TelegramUserDto;
+import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
+import com.sergio.memo_app.persistence.service.CategoryPersistenceService;
 import com.sergio.memo_app.persistence.service.CompositeUserPersistenceService;
+import com.sergio.memo_app.persistence.service.TelegramUserPersistenceService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -12,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
 
+import static com.sergio.memo_app.util.ConstantHelper.Telegram.TELEGRAM_CHAT_ID_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -21,6 +27,10 @@ public class TestCompositeUserPersistenceService extends BaseCT {
 
     @Autowired
     private CompositeUserPersistenceService compositeUserPersistenceService;
+    @Autowired
+    private TelegramUserPersistenceService telegramUserPersistenceService;
+    @Autowired
+    private CategoryPersistenceService categoryPersistenceService;
 
     @Test
     @Order(1)
@@ -72,7 +82,7 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     @Test
     @Order(5)
     void shouldFindUserByTelegramChatId() {
-        CompositeUserRecord result = compositeUserPersistenceService.findByTelegramChatId(456L);
+        CompositeUserRecord result = compositeUserPersistenceService.findByTelegramChatId(TELEGRAM_CHAT_ID_1);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(1);
@@ -83,15 +93,17 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     @Test
     @Order(6)
     void shouldInsertUser() {
-        CompositeUserRecord compositeUserRecord = new CompositeUserRecord();
-
-        compositeUserPersistenceService.insert(compositeUserRecord);
+        TelegramUserDto telegramUserDto = telegramUserPersistenceService.insert(TelegramUserDto.builder()
+                .username("dafadfaxcz")
+                .telegramUserId(999999L)
+                .telegramChatId(888888L)
+                .build());
 
         CompositeUserRecord user = compositeUserPersistenceService.findById(2);
 
         assertThat(user).isNotNull();
         assertThat(user.getId()).isEqualTo(2);
-        assertThat(user.getTelegramUserId()).isNull();
+        assertThat(user.getTelegramUserId()).isEqualTo(telegramUserDto.id());
         assertThat(user.getAppUserId()).isNull();
     }
 
@@ -130,6 +142,9 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     @Test
     @Order(9)
     void shouldDeleteUser() {
+        CategoryDto categoryDto = categoryPersistenceService.getByUserIdAndTitle(2, CategoryConstant.DEFAULT_CATEGORY);
+        categoryPersistenceService.delete(categoryDto.id());
+
         compositeUserPersistenceService.delete(2);
 
         assertThatCode(() -> compositeUserPersistenceService.findById(2))

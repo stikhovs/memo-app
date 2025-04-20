@@ -17,6 +17,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import static com.sergio.memo_app.util.ConstantHelper.Category.*;
 import static com.sergio.memo_app.util.ConstantHelper.Header.X_INTERNAL_AUTH_KEY;
 import static com.sergio.memo_app.util.ConstantHelper.Header.X_INTERNAL_AUTH_VALUE;
+import static com.sergio.memo_app.util.ConstantHelper.Telegram.TELEGRAM_CHAT_ID_1;
 import static com.sergio.memo_app.util.ConstantHelper.User.USER_ID_1;
 import static io.restassured.RestAssured.given;
 
@@ -61,7 +62,7 @@ public class TestTelegramCategoryApi extends BaseCT {
                 .contentType(ContentType.JSON)
                 .headers(Headers.headers(new Header(X_INTERNAL_AUTH_KEY, X_INTERNAL_AUTH_VALUE)))
                 .body(requestBody)
-                .post("/telegram/category/save?chatId=%s".formatted(456L))
+                .post("/telegram/category/save?chatId=%s".formatted(TELEGRAM_CHAT_ID_1))
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.equalTo(CATEGORY_ID_2.intValue()))
@@ -75,7 +76,7 @@ public class TestTelegramCategoryApi extends BaseCT {
         given()
                 .when()
                 .headers(Headers.headers(new Header(X_INTERNAL_AUTH_KEY, X_INTERNAL_AUTH_VALUE)))
-                .get("/telegram/category/by-chat?chatId=%s".formatted(456L))
+                .get("/telegram/category/by-chat?chatId=%s".formatted(TELEGRAM_CHAT_ID_1))
                 .then()
                 .statusCode(200)
                 .body(".", Matchers.hasSize(2))

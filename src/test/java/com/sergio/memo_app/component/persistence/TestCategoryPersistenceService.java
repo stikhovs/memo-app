@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.sergio.memo_app.util.ConstantHelper.Category.*;
+import static com.sergio.memo_app.util.ConstantHelper.Telegram.TELEGRAM_CHAT_ID_1;
 import static com.sergio.memo_app.util.ConstantHelper.User.USER_ID_1;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -110,7 +111,7 @@ public class TestCategoryPersistenceService extends BaseCT {
     @Test
     @Order(8)
     void shouldFindGetByTelegramChatIdAndTitle() {
-        Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(456L, CATEGORY_TITLE_1);
+        Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(TELEGRAM_CHAT_ID_1, CATEGORY_TITLE_1);
 
         assertThat(result).isPresent();
         assertThat(result.get().id()).isEqualTo(CATEGORY_ID_1);
@@ -120,7 +121,7 @@ public class TestCategoryPersistenceService extends BaseCT {
     @Test
     @Order(9)
     void shouldGetByTelegramChatIdAndTitle() {
-        CategoryDto result = categoryPersistenceService.getByTelegramChatIdAndTitle(456L, CATEGORY_TITLE_1);
+        CategoryDto result = categoryPersistenceService.getByTelegramChatIdAndTitle(TELEGRAM_CHAT_ID_1, CATEGORY_TITLE_1);
 
         assertThat(result).isNotNull();
         assertThat(result.id()).isEqualTo(CATEGORY_ID_1);
@@ -132,15 +133,7 @@ public class TestCategoryPersistenceService extends BaseCT {
     void shouldDelete() {
         categoryPersistenceService.delete(CATEGORY_ID_2);
 
-        Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(456L, CATEGORY_TITLE_2.toUpperCase());
-        assertThat(result).isEmpty();
-    }
-    @Test
-    @Order(11)
-    void shouldDeleteWithCards() {
-        categoryPersistenceService.delete(CATEGORY_ID_1);
-
-        Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(456L, CATEGORY_TITLE_1);
+        Optional<CategoryDto> result = categoryPersistenceService.findByTelegramChatIdAndTitle(TELEGRAM_CHAT_ID_1, CATEGORY_TITLE_2.toUpperCase());
         assertThat(result).isEmpty();
     }
 

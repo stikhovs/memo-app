@@ -78,7 +78,7 @@ public class TelegramUserPersistenceService implements BaseCrud<TelegramUserDto,
                 .title(CategoryConstant.DEFAULT_CATEGORY)
                 .build());
 
-        return data;
+        return savedUser;
     }
 
     @Override

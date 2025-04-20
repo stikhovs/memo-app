@@ -44,6 +44,18 @@ public final class ConstantHelper {
         public static String CATEGORY_TITLE_2 = "test category";
     }
 
+    public static class Telegram {
+        public static Long TELEGRAM_USER_ID_1 = 123L;
+        public static Long TELEGRAM_CHAT_ID_1 = 456L;
+        public static String TELEGRAM_USERNAME_1 = "test telegram user";
+        public static Long TELEGRAM_USER_ID_2 = 444L;
+        public static Long TELEGRAM_CHAT_ID_2 = 777L;
+        public static String TELEGRAM_USERNAME_2 = "test";
+        public static Long TELEGRAM_USER_ID_3 = 555L;
+        public static Long TELEGRAM_CHAT_ID_3 = 666L;
+        public static String TELEGRAM_USERNAME_3 = "test 123";
+    }
+
     public static class Header {
         public static String X_INTERNAL_AUTH_KEY = "X-Internal-Auth";
         public static String X_INTERNAL_AUTH_VALUE = "test-key";
