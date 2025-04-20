@@ -14,12 +14,12 @@ generate-jooq:
     DB_HOST: postgres
     DB_PORT: 5432
     DB_NAME: jooq_db
-    DB_USER: jooq_user
-    DB_PASSWORD: jooq_password
+    DB_USER: postgres
+    DB_PASSWORD: postgres
   before_script:
     - apt-get update && apt-get install -y postgresql-client
-  script:
     - until pg_isready -h $DB_HOST -p $DB_PORT; do sleep 1; done
+  script:
     - mvn clean liquibase:update jooq-codegen:generate
   artifacts:
     paths:
