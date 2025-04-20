@@ -45,7 +45,7 @@ test:
   stage: test
   image: maven:3.9.9-eclipse-temurin-21
   dependencies:
-    - build
+    - compile
   script:
     - mvn test
 
@@ -53,7 +53,7 @@ package:
   stage: package
   image: maven:3.9.9-eclipse-temurin-21
   dependencies:
-    - build
+    - compile
     - test
   script:
     - mvn package -DskipTests
