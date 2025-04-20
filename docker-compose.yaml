@@ -5,12 +5,8 @@ services:
     image: registry.gitlab.com/memo7502116/memo-app:latest
     container_name: memo_app
     restart: unless-stopped
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: memo_app_db
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+    env_file:
+      - "env.list"
     ports:
       - "8080:8080"
     depends_on:
