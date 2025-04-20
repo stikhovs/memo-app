@@ -67,7 +67,7 @@ dockerize:
   services:
     - docker:24.0.7-dind
   dependencies:
-    - build
+    - package
   variables:
     DOCKER_DRIVER: overlay2
   script:
