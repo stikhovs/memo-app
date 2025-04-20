@@ -37,14 +37,12 @@ compile:
     - generate-jooq
   script:
     - mvn compile
-  artifacts:
-    paths:
-      - target/*.jar
 
 test:
   stage: test
   image: maven:3.9.9-eclipse-temurin-21
   dependencies:
+    - generate-jooq
     - compile
   script:
     - mvn test
@@ -53,6 +51,7 @@ package:
   stage: package
   image: maven:3.9.9-eclipse-temurin-21
   dependencies:
+    - generate-jooq
     - compile
     - test
   script:
