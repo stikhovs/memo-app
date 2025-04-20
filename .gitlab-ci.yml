@@ -18,8 +18,8 @@ generate-jooq:
     DB_PASSWORD: jooq_password
   before_script:
     - apt-get update && apt-get install -y postgresql-client
-    - until pg_isready -h $DB_HOST -p $DB_PORT; do sleep 1; done
   script:
+    - until pg_isready -h $DB_HOST -p $DB_PORT; do sleep 1; done
     - mvn clean liquibase:update jooq-codegen:generate
   artifacts:
     paths:
