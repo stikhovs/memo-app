@@ -27,6 +27,9 @@ generate-jooq:
   artifacts:
     paths:
       - target/generated-sources/jooq
+      - .mvn
+      - pom.xml
+      - src/
 
 build:
   stage: build
