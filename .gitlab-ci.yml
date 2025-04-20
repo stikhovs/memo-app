@@ -1,0 +1,46 @@
+stages:
+  - prepare
+  - build
+  - deploy
+
+generate-jooq:
+  stage: prepare
+  image: maven:3.9-eclipse-temurin-21
+  services:
+    - name: postgres:15
+      alias: postgres
+  variables:
+    POSTGRES_DB: memo_app_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_NAME: memo_app_db
+    DB_USER: postgres
+    DB_PASSWORD: postgres
+  script:
+    - echo "Waiting for Postgres to be ready..."
+    - until pg_isready -h postgres -p 5432; do sleep 1; done
+    - mvn clean liquibase:update jooq-codegen:generate
+  artifacts:
+    paths:
+      - target/generated-sources/jooq
+
+build:
+  stage: build
+  image: docker:24.0.7
+  services:
+    - docker:24.0.7-dind
+  dependencies:
+    - generate-jooq
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker build -t registry.gitlab.com/memo7502116/memo-app:latest .
+    - docker push registry.gitlab.com/memo7502116/memo-app:latest
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to VPS or elsewhere..."
