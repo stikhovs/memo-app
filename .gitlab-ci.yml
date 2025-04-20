@@ -1,6 +1,8 @@
 stages:
   - prepare
-  - build
+  - compile
+  - test
+  - package
   - dockerize
   - deploy
 
@@ -28,11 +30,31 @@ generate-jooq:
     paths:
       - target/generated-sources/jooq
 
-build:
-  stage: build
+compile:
+  stage: compile
   image: maven:3.9.9-eclipse-temurin-21
   dependencies:
     - generate-jooq
+  script:
+    - mvn compile
+  artifacts:
+    paths:
+      - target/*.jar
+
+test:
+  stage: test
+  image: maven:3.9.9-eclipse-temurin-21
+  dependencies:
+    - build
+  script:
+    - mvn test
+
+package:
+  stage: package
+  image: maven:3.9.9-eclipse-temurin-21
+  dependencies:
+    - build
+    - test
   script:
     - mvn package -DskipTests
   artifacts:
