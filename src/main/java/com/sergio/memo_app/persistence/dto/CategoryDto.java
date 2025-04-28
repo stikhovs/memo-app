@@ -6,6 +6,7 @@ import lombok.Builder;
 public record CategoryDto (
         Long id,
         String title,
+        boolean isDefault,
         Integer userId
 
 ) {}

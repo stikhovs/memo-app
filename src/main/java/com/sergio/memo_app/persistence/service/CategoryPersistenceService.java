@@ -4,7 +4,6 @@ import com.sergio.memo_app.generated.tables.Category;
 import com.sergio.memo_app.generated.tables.CompositeUser;
 import com.sergio.memo_app.generated.tables.TelegramUser;
 import com.sergio.memo_app.persistence.dto.CategoryDto;
-import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
@@ -13,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.sergio.memo_app.mapper.PersistenceMapper.toCategoryDto;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
 @Service
@@ -45,7 +44,7 @@ public class CategoryPersistenceService implements BaseCrud<CategoryDto, Long> {
     @Override
     public CategoryDto update(CategoryDto data) {
         int numberOfRecords = dslContext.update(Category.CATEGORY)
-                .set(Category.CATEGORY.TITLE, isBlank(data.title()) ? CategoryConstant.DEFAULT_CATEGORY : data.title())
+                .set(Category.CATEGORY.TITLE, data.title())
                 .where(Category.CATEGORY.ID.eq(data.id()))
                 .execute();
         return findById(data.id());
@@ -57,8 +56,21 @@ public class CategoryPersistenceService implements BaseCrud<CategoryDto, Long> {
         int numberOfRecords = dslContext.insertInto(Category.CATEGORY)
                 .set(Category.CATEGORY.TITLE, data.title())
                 .set(Category.CATEGORY.USER_ID, data.userId())
+                .set(Category.CATEGORY.IS_DEFAULT, false)
                 .execute();
         return getByUserIdAndTitle(data.userId(), data.title());
+    }
+
+    @Transactional
+    public CategoryDto insertDefaultCategory(Integer userId) {
+        log.info("Creating default category for userId {}", userId);
+        String title = UUID.randomUUID().toString();
+        int numberOfRecords = dslContext.insertInto(Category.CATEGORY)
+                .set(Category.CATEGORY.TITLE, title)
+                .set(Category.CATEGORY.USER_ID, userId)
+                .set(Category.CATEGORY.IS_DEFAULT, true)
+                .execute();
+        return getByUserIdAndTitle(userId, title);
     }
 
     @Override
@@ -84,6 +96,22 @@ public class CategoryPersistenceService implements BaseCrud<CategoryDto, Long> {
                 .and(Category.CATEGORY.TITLE.eq(title))
                 .fetchOptional()
                 .map(toCategoryDto());
+    }
+
+
+    public Optional<CategoryDto> findDefault(Integer userId) {
+        return dslContext.select()
+                .from(Category.CATEGORY)
+                .where(Category.CATEGORY.USER_ID.eq(userId))
+                .and(Category.CATEGORY.IS_DEFAULT.eq(true))
+                .fetchOptional()
+                .map(toCategoryDto());
+    }
+
+
+    public CategoryDto getDefault(Integer userId) {
+        return findDefault(userId)
+                .orElseThrow(() -> new RuntimeException("Couldn't find default category by userId [%s]".formatted(userId)));
     }
 
 

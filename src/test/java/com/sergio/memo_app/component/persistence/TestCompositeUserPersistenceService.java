@@ -4,7 +4,6 @@ import com.sergio.memo_app.component.base.BaseCT;
 import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
 import com.sergio.memo_app.persistence.dto.CategoryDto;
 import com.sergio.memo_app.persistence.dto.TelegramUserDto;
-import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import com.sergio.memo_app.persistence.service.CategoryPersistenceService;
 import com.sergio.memo_app.persistence.service.CompositeUserPersistenceService;
 import com.sergio.memo_app.persistence.service.TelegramUserPersistenceService;
@@ -142,7 +141,7 @@ public class TestCompositeUserPersistenceService extends BaseCT {
     @Test
     @Order(9)
     void shouldDeleteUser() {
-        CategoryDto categoryDto = categoryPersistenceService.getByUserIdAndTitle(2, CategoryConstant.DEFAULT_CATEGORY);
+        CategoryDto categoryDto = categoryPersistenceService.getDefault(2);
         categoryPersistenceService.delete(categoryDto.id());
 
         compositeUserPersistenceService.delete(2);

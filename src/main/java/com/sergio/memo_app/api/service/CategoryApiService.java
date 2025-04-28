@@ -3,7 +3,6 @@ package com.sergio.memo_app.api.service;
 import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
 import com.sergio.memo_app.persistence.dto.CategoryDto;
-import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import com.sergio.memo_app.persistence.service.CardPersistenceService;
 import com.sergio.memo_app.persistence.service.CardSetPersistenceService;
 import com.sergio.memo_app.persistence.service.CategoryPersistenceService;
@@ -59,11 +58,9 @@ public class CategoryApiService {
         if (keepSets) {
             if (!cardSets.isEmpty()) {
                 Integer userId = cardSets.getFirst().userId();
-                categoryPersistenceService.findByUserIdAndTitle(userId, CategoryConstant.DEFAULT_CATEGORY)
-                        .ifPresent(defaultCategory -> {
-                            List<Long> cardSetIds = cardSets.stream().map(CardSetDto::id).toList();
-                            cardSetPersistenceService.updateCategory(defaultCategory.id(), cardSetIds);
-                        });
+                CategoryDto defaultCategory = categoryPersistenceService.getDefault(userId);
+                List<Long> cardSetIds = cardSets.stream().map(CardSetDto::id).toList();
+                cardSetPersistenceService.updateCategory(defaultCategory.id(), cardSetIds);
             }
         } else {
             List<Long> cardSetIds = cardSets.stream().map(CardSetDto::id).toList();

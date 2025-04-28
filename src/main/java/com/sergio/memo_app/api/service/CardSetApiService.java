@@ -5,7 +5,6 @@ import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
 import com.sergio.memo_app.mapper.ApiMapper;
 import com.sergio.memo_app.persistence.dto.CardSetDto;
 import com.sergio.memo_app.persistence.dto.CategoryDto;
-import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import com.sergio.memo_app.persistence.service.CardSetPersistenceService;
 import com.sergio.memo_app.persistence.service.CategoryPersistenceService;
 import com.sergio.memo_app.persistence.service.CompositeUserPersistenceService;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -103,12 +101,8 @@ public class CardSetApiService {
 
     private Long getCategoryId(CardSetDto data) {
         if (data.categoryId() == null) {
-            Optional<CategoryDto> defaultCategory = categoryPersistenceService.findByUserIdAndTitle(data.userId(), CategoryConstant.DEFAULT_CATEGORY);
-            if (defaultCategory.isPresent()) {
-                return defaultCategory.get().id();
-            }
-            CategoryDto category = CategoryDto.builder().userId(data.userId()).build();
-            return categoryPersistenceService.insert(category).id();
+            CategoryDto defaultCategory = categoryPersistenceService.getDefault(data.userId());
+            return defaultCategory.id();
         }
         return data.categoryId();
     }

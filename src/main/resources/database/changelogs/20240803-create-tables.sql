@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS category (
 	id BIGSERIAL PRIMARY KEY,
 	title VARCHAR(100) NOT NULL,
 	user_id INTEGER NOT NULL REFERENCES composite_user (id),
+	is_default BOOLEAN,
 	created_at timestamp NOT NULL DEFAULT now(),
     updated_at timestamp NOT NULL DEFAULT now(),
     UNIQUE (title, user_id)

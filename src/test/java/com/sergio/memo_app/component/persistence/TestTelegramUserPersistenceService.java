@@ -2,7 +2,6 @@ package com.sergio.memo_app.component.persistence;
 
 import com.sergio.memo_app.component.base.BaseCT;
 import com.sergio.memo_app.persistence.dto.TelegramUserDto;
-import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import com.sergio.memo_app.persistence.service.CategoryPersistenceService;
 import com.sergio.memo_app.persistence.service.CompositeUserPersistenceService;
 import com.sergio.memo_app.persistence.service.TelegramUserPersistenceService;
@@ -151,7 +150,7 @@ public class TestTelegramUserPersistenceService extends BaseCT {
     void shouldDeleteUser() {
         compositeUserPersistenceService.findByTelegramUserId(2)
                         .ifPresent(compositeUserRecord -> {
-                            categoryPersistenceService.findByUserIdAndTitle(compositeUserRecord.getId(), CategoryConstant.DEFAULT_CATEGORY)
+                            categoryPersistenceService.findDefault(compositeUserRecord.getId())
                                     .ifPresent(categoryDto -> categoryPersistenceService.delete(categoryDto.id()));
                             compositeUserPersistenceService.delete(compositeUserRecord.getId());
                         });

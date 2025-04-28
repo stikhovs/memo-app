@@ -2,9 +2,7 @@ package com.sergio.memo_app.persistence.service;
 
 import com.sergio.memo_app.generated.tables.TelegramUser;
 import com.sergio.memo_app.generated.tables.records.CompositeUserRecord;
-import com.sergio.memo_app.persistence.dto.CategoryDto;
 import com.sergio.memo_app.persistence.dto.TelegramUserDto;
-import com.sergio.memo_app.persistence.dto.constant.CategoryConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
@@ -73,10 +71,7 @@ public class TelegramUserPersistenceService implements BaseCrud<TelegramUserDto,
         compositeUserRecord.setTelegramUserId(savedUser.id());
         CompositeUserRecord createdUser = compositeUserPersistenceService.insert(compositeUserRecord);
 
-        categoryPersistenceService.insert(CategoryDto.builder()
-                .userId(createdUser.getId())
-                .title(CategoryConstant.DEFAULT_CATEGORY)
-                .build());
+        categoryPersistenceService.insertDefaultCategory(createdUser.getId());
 
         return savedUser;
     }

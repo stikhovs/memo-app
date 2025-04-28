@@ -13,8 +13,8 @@ VALUES(1, 1, now(), now());
 
 --changeset stikhovs:insert-test-category
 INSERT INTO category
-(title, user_id, created_at, updated_at)
-VALUES('default', 1, now(), now());
+(title, user_id, is_default, created_at, updated_at)
+VALUES('default', 1, true, now(), now());
 
 --changeset stikhovs:insert-test-card_set
 INSERT INTO card_set (title, uuid, user_id, category_id, created_at, updated_at)

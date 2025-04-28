@@ -47,6 +47,7 @@ public final class PersistenceMapper {
                 .id(record.get(Category.CATEGORY.ID))
                 .title(record.get(Category.CATEGORY.TITLE))
                 .userId(record.get(Category.CATEGORY.USER_ID))
+                .isDefault(record.get(Category.CATEGORY.IS_DEFAULT))
                 .build();
     }
 }
