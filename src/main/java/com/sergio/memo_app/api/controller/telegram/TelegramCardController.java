@@ -26,7 +26,7 @@ public class TelegramCardController {
     public CardApiDto add(@RequestParam Long cardSetId, @RequestBody CardDto cardDto) {
         return cardApiService.add(cardSetId, cardDto);
     }
-    @PostMapping("/add-batch")
+    @PostMapping("/telegram/card/add-batch")
     public List<CardApiDto> addBatch(@RequestParam Long cardSetId, @RequestBody List<CardDto> cards) {
         return cardApiService.save(cardSetId, cards);
     }
