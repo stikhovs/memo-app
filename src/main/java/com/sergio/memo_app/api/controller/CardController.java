@@ -17,8 +17,8 @@ public class CardController {
     private final CardApiService cardApiService;
 
     @PostMapping("/api/card")
-    public List<CardApiDto> save(@RequestParam Long setId, @RequestBody List<CardDto> cardDto) {
-        return cardApiService.save(setId, cardDto);
+    public List<CardApiDto> save(@RequestParam Long setId, @RequestBody List<CardDto> cards) {
+        return cardApiService.save(setId, cards);
     }
     @GetMapping("/api/card")
     public List<CardApiDto> find(@RequestParam Long cardSetId) {

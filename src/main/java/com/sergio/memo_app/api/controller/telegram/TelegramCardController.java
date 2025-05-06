@@ -15,7 +15,7 @@ public class TelegramCardController {
     private final CardApiService cardApiService;
 
     @GetMapping("/telegram/get-cards")
-    List<CardApiDto> getCards(@RequestParam Long cardSetId) {
+    public List<CardApiDto> getCards(@RequestParam Long cardSetId) {
         return cardApiService.find(cardSetId);
     }
     @PutMapping("/telegram/card/update")
@@ -25,6 +25,10 @@ public class TelegramCardController {
     @PostMapping("/telegram/card/add")
     public CardApiDto add(@RequestParam Long cardSetId, @RequestBody CardDto cardDto) {
         return cardApiService.add(cardSetId, cardDto);
+    }
+    @PostMapping("/add-batch")
+    public List<CardApiDto> addBatch(@RequestParam Long cardSetId, @RequestBody List<CardDto> cards) {
+        return cardApiService.save(cardSetId, cards);
     }
     @DeleteMapping("/telegram/card/delete")
     public void delete(@RequestParam Long cardId) {

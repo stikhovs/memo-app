@@ -82,6 +82,7 @@ public class CardPersistenceService implements BaseCrud<CardDto, Long> {
 
     public List<CardDto> addCards(Long setId, List<CardDto> cards) {
         List<CardRecord> cardRecords = cards.stream()
+                .filter(cardDto -> cardDto.id() == null)
                 .map(cardDto -> {
                     CardRecord cardRecord = dslContext.newRecord(Card.CARD);
                     cardRecord.setCardSetId(setId);
