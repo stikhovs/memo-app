@@ -59,3 +59,6 @@ CREATE TABLE IF NOT EXISTS card (
 	created_at timestamp NOT NULL DEFAULT now(),
     updated_at timestamp NOT NULL DEFAULT now()
 );
+
+--changeset stikhovs:drop-not-null-constraint-for-tg-username
+ALTER TABLE telegram_user ALTER COLUMN username DROP NOT NULL;
